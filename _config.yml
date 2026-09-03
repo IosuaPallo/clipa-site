@@ -1,0 +1,12 @@
+# Provisional. setup.sh regenerates this file with the real values.
+title: Clipa
+description: A few seconds between you and your reflex.
+
+developer: ""
+contact_email: ""
+
+permalink: pretty
+
+defaults:
+  - scope: { path: "" }
+    values: { layout: "default" }
