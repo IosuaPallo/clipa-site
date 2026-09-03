@@ -1,0 +1,52 @@
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # The failure this repo is actually exposed to. Jekyll renders an unknown
+      # placeholder as an EMPTY STRING, so a policy pushed before setup.sh has
+      # run goes live reading "Clipa is made by ." and looks entirely
+      # intentional. Nothing about the page would look broken.
+      - name: Refuse unfilled placeholders
+        run: |
+          if grep -rn --exclude-dir=.git -E '\{\{ *(DEVELOPER_NAME|CONTACT_EMAIL|EFFECTIVE_DATE) *\}\}' . ; then
+            echo "::error::A placeholder is still unfilled. Run site/setup.sh in clipa-app and copy the result here."
+            exit 1
+          fi
+          echo "no unfilled placeholders"
+
+      # Pages deploys on push with no gate of its own, so if the build breaks
+      # the site serves stale content or 404s - and a 404 on the privacy URL
+      # fails Play review.
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: A published legal page must be complete
+        run: |
+          if [ ! -f privacy.md ] && [ ! -f terms.md ]; then
+            echo "holding page only - the legal documents are not published yet"
+            exit 0
+          fi
+          fail=0
+          for page in privacy terms delete-my-data; do
+            if [ ! -f "_site/$page/index.html" ]; then
+              echo "::error::$page did not render"; fail=1
+            fi
+          done
+          # Empty here means the footer and the contact line render blank.
+          if grep -qE '^(developer|contact_email): *""' _config.yml; then
+            echo "::error::_config.yml still has an empty value while legal pages are published"
+            fail=1
+          fi
+          exit $fail
