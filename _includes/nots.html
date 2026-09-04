@@ -1,30 +1,22 @@
-{%- comment -%}
-  Section 5. The seven things it does not do.
+{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
 
-  --destructive on the ICON only, never on the text. That is the app's own
-  rule: colour marks the kind of thing, it never carries the meaning, and a
-  list of seven red sentences would read as seven warnings rather than seven
-  reassurances.
-{%- endcomment -%}
 <section class="section" id="not">
   <div class="frame nots">
     <div class="nots__copy">
-      <p class="eyebrow">What it does not do</p>
-      <h2 class="section__title">There is no account, because there is nothing to store.</h2>
-      <p>Clipa sees which app came to the foreground and for how long. It never sees what is inside one, and none of it leaves the phone.</p>
-      <p>There is no server to sign in to and nothing for anyone to lose. Your stats live in your pocket and nowhere else. Export all of it whenever you like, or delete all of it in one tap.</p>
-      <p><a class="link-arrow" href="{{ '/privacy/' | relative_url }}">Read the privacy policy {% include icon.html name='arrow-right' %}</a></p>
+      <p class="eyebrow">{{ t.nots.eyebrow }}</p>
+      <h2 class="section__title">{{ t.nots.title }}</h2>
+      <p>{{ t.nots.p1 }}</p>
+      <p>{{ t.nots.p2 }}</p>
+      <p><a class="link-arrow" href="{{ t.url.privacy | relative_url }}">{{ t.nots.privacy_link }} {% include icon.html name='arrow-right' %}</a></p>
     </div>
 
     <ul class="nots__list">
-      {%- assign rows = "It does not block apps|Every pause has a way through. Friction, not a wall.;;It does not shame you|No red numbers, no grades, no “you failed today”.;;It does not count streaks|A streak is just a thing to lose, and losing it ends the habit.;;It has no account|Nothing to sign up for, nothing to sign in to, no password to forget.;;It sends nothing anywhere|No analytics by default. If you switch them on, they carry no content.;;It never plays a sound|Not once. It appears quietly or not at all.;;It does not sell anything on the pause|No upsell at the moment you are trying to make a decision." | split: ";;" -%}
-      {%- for row in rows -%}
-        {%- assign parts = row | split: "|" -%}
+      {%- for row in t.nots.rows -%}
         <li>
           <span class="nots__icon">{% include icon.html name='close' %}</span>
           <div>
-            <p class="nots__title">{{ parts[0] }}</p>
-            <p class="nots__body">{{ parts[1] }}</p>
+            <p class="nots__title">{{ row.t }}</p>
+            <p class="nots__body">{{ row.b }}</p>
           </div>
         </li>
       {%- endfor -%}

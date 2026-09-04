@@ -1,32 +1,20 @@
-{%- comment -%}
-  Section 4 — the night band.
+{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
 
-  THE CSS DEFAULT IS THE NIGHT STATE. The script sets .is-light before the
-  observer runs and removes it when the band is 35% visible. Same inversion as
-  the hero: with no JS the band renders already dark, which is the state that
-  makes the point, rather than a light band that never changes.
-
-  700ms is deliberately slower than any duration in the app. It stands in for a
-  change of hour, not a UI response, and everything transitions together so it
-  reads as one event rather than a dozen.
-{%- endcomment -%}
 <section class="section night" id="night" data-night>
   <div class="frame night__grid">
     <div class="night__copy">
-      <p class="eyebrow">After ten</p>
-      <h2 class="section__title">At one in the morning, a white screen is not a neutral act.</h2>
-      <p>Between 22:00 and 06:00 the pause changes its own colours — warm amber on near-black, no blue — and it turns your screen brightness down while it is on top. It never turns it up.</p>
-      <p>This is the hour the app was built for. It is also the hour most apps stop caring.</p>
+      <p class="eyebrow">{{ t.night.eyebrow }}</p>
+      <h2 class="section__title">{{ t.night.title }}</h2>
+      <p>{{ t.night.p1 }}</p>
+      <p>{{ t.night.p2 }}</p>
       <ul class="night__pills">
-        <li>Warm palette, no blue</li>
-        <li>Brightness lowered, never raised</li>
-        <li>Never a sound</li>
+        {%- for pill in t.night.pills -%}<li>{{ pill }}</li>{%- endfor -%}
       </ul>
     </div>
     <div class="night__device">
       {% include phone.html
-         prompt="It is 01:14. Is this how you want to spend it?"
-         app="Instagram"
+         prompt=t.night.prompt
+         app=t.night.app
          time="01:14" %}
     </div>
   </div>

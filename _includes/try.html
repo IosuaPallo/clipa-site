@@ -1,34 +1,20 @@
-{%- comment -%}
-  Section 2 — the demo, and the section that earns the visit.
-
-  It runs the APP'S OWN algorithm, constants and all, rather than an
-  approximation: same clamp, same 250ms first word, same rule that the buttons
-  arrive at max(n, sentenceEnd). At the default five seconds that produces a
-  250ms hold - a finished sentence with nothing yet to press - which is the
-  exact case that made the app's spec contradict itself. Showing it plainly is
-  more honest than hiding it, and it is the most interesting thing about the
-  product's timing.
-
-  Everything here is inert without JS: the controls are real radio inputs, the
-  table renders its default values server-side, and the phone shows the pause
-  already finished. No blank boxes waiting for a script.
-{%- endcomment -%}
+{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
 
 <section class="section section--try" id="try">
   <div class="frame try">
     <div class="try__copy">
-      <p class="eyebrow">Try it</p>
-      <h2>Tap an app. Feel the pause.</h2>
-      <p class="lede">
-        This is the real thing: the same word-by-word reveal, the same clamped
-        timing, the same buttons arriving only when the wait is over. Set the
-        delay to whatever you would actually live with.
-      </p>
+      <p class="eyebrow">{{ t.try.eyebrow }}</p>
+      <h2>{{ t.try.title }}</h2>
+      <p class="lede">{{ t.try.lede }}</p>
 
       <fieldset class="try__field">
-        <legend class="try__legend"><span class="try__num">1</span> Choose the app you lose time in</legend>
-        <p class="try__hint">In the app this is a list of what is really on your phone. Here, three of the usual suspects.</p>
+        <legend class="try__legend"><span class="try__num">1</span> {{ t.try.step1 }}</legend>
+        <p class="try__hint">{{ t.try.hint1 }}</p>
         <div class="try__apps">
+          {%- comment -%}
+            Brand names and brand colours, so they are the same in every
+            language and stay out of the translation table.
+          {%- endcomment -%}
           {% assign apps = "Instagram,ig,#C13584|TikTok,tt,#0E0E0E|YouTube,yt,#B02020" | split: "|" %}
           {% for a in apps %}
             {% assign bits = a | split: "," %}
@@ -43,9 +29,9 @@
       </fieldset>
 
       <fieldset class="try__field">
-        <legend class="try__legend"><span class="try__num">2</span> How long should it wait?</legend>
-        <p class="try__hint">The app’s own range. Five seconds is the default.</p>
-        <p class="try__delay"><strong data-delay-value>5</strong> <span>s</span></p>
+        <legend class="try__legend"><span class="try__num">2</span> {{ t.try.step2 }}</legend>
+        <p class="try__hint">{{ t.try.hint2 }}</p>
+        <p class="try__delay"><strong data-delay-value>5</strong> <span>{{ t.try.seconds_abbr }}</span></p>
         <div class="try__delays">
           {% for n in (1..10) %}
             <label class="sec">
@@ -57,23 +43,23 @@
       </fieldset>
 
       <p class="try__run">
-        <button class="btn btn--primary" type="button" data-demo-run>Open <span data-app-name>YouTube</span></button>
+        <button class="btn btn--primary" type="button" data-demo-run>{{ t.try.js.open }} <span data-app-name>YouTube</span></button>
       </p>
 
       <table class="try__table">
-        <caption class="visually-hidden">The timing this delay produces</caption>
+        <caption class="visually-hidden">{{ t.try.table_caption }}</caption>
         <tbody>
-          <tr><th scope="row">words in the sentence</th><td data-t="words">6</td></tr>
-          <tr><th scope="row">interval per word</th><td data-t="step">900 ms</td></tr>
-          <tr><th scope="row">the sentence finishes</th><td data-t="end">4.75 s</td></tr>
-          <tr><th scope="row">buttons arrive</th><td data-t="buttons">5.00 s</td></tr>
-          <tr class="try__hold"><th scope="row">the hold — a finished sentence, nothing to press</th><td data-t="hold">250 ms</td></tr>
+          <tr><th scope="row">{{ t.try.row_words }}</th><td data-t="words">{{ t.try.defaults.words }}</td></tr>
+          <tr><th scope="row">{{ t.try.row_step }}</th><td data-t="step">{{ t.try.defaults.step }}</td></tr>
+          <tr><th scope="row">{{ t.try.row_end }}</th><td data-t="end">{{ t.try.defaults.end }}</td></tr>
+          <tr><th scope="row">{{ t.try.row_buttons }}</th><td data-t="buttons">{{ t.try.defaults.buttons }}</td></tr>
+          <tr class="try__hold"><th scope="row">{{ t.try.row_hold }}</th><td data-t="hold">{{ t.try.defaults.hold }}</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="try__device">
-      {%- comment -%}
+{%- comment -%}
         The whole mock is aria-hidden. Every control inside it is a <span> -
         the only real button in this section is "Open YouTube" below the
         controls - so there is nothing here to operate, and a screen reader
@@ -90,8 +76,7 @@
           <div class="phone__status" aria-hidden="true">
             <span>21:47</span><span class="phone__status-icons"></span>
           </div>
-
-          {%- comment -%}
+{%- comment -%}
             A deliberately abstract feed. Mimicking a real one is both a
             trademark problem and a distraction from the only thing this
             section is about.
@@ -105,24 +90,42 @@
           </div>
 
           <div class="phone__prompt" data-demo-prompt>
-            <p class="phone__sentence" data-demo-sentence>so I have my evenings back</p>
-            <p class="phone__count">7 times today</p>
+            <p class="phone__sentence" data-demo-sentence>{{ t.phone.prompt }}</p>
+            <p class="phone__count">{{ t.try.count }}</p>
           </div>
 
           <div class="phone__actions" data-demo-actions>
-            <span class="phone__btn phone__btn--primary">Not now</span>
-            <span class="phone__btn phone__btn--secondary">Open <span data-app-name>YouTube</span></span>
+            <span class="phone__btn phone__btn--primary">{{ t.phone.not_now }}</span>
+            <span class="phone__btn phone__btn--secondary">{{ t.phone.open }} <span data-app-name>YouTube</span></span>
           </div>
         </div>
       </div>
     </div>
-
-    {%- comment -%}
+{%- comment -%}
       The demo is otherwise silent to a screen reader: the phone is hidden and
       the words appear with no announcement, so pressing the button did
       nothing you could hear. This says what happened, once, when the pause
       finishes - not per word, which would read the sentence out eight times.
     {%- endcomment -%}
     <p class="visually-hidden" role="status" aria-live="polite" data-demo-status></p>
+
+    {%- comment -%}
+      The demo's own strings, for site.js. A JSON block rather than a pile of
+      data- attributes: the announcement is a whole sentence with slots in it,
+      and splitting a sentence across attributes is how translations end up
+      ungrammatical. site.js falls back to English if this is missing, so the
+      demo still runs on a page that forgot it.
+    {%- endcomment -%}
+    <script type="application/json" data-demo-i18n>
+      {
+        "prompt": {{ t.phone.prompt | jsonify }},
+        "open": {{ t.try.js.open | jsonify }},
+        "restart": {{ t.try.js.restart | jsonify }},
+        "ms": {{ t.try.js.ms | jsonify }},
+        "s": {{ t.try.js.s | jsonify }},
+        "noHold": {{ t.try.js.no_hold | jsonify }},
+        "announce": {{ t.try.js.announce | jsonify }}
+      }
+    </script>
   </div>
 </section>

@@ -66,7 +66,27 @@
      ------------------------------------------------------------------------- */
 
   var FIRST_WORD_MS = 250, MIN_STEP = 260, MAX_STEP = 900;
-  var REASON = 'so I have my evenings back';
+
+  /* The demo's own words, handed over by the page so the section speaks the
+     language it is printed in. English is the fallback and not a placeholder:
+     if the block is missing, malformed, or the page simply forgot it, the demo
+     still runs rather than announcing "undefined seconds". */
+  var L = {
+    prompt: 'so I have my evenings back',
+    open: 'Open', restart: 'Start over',
+    ms: ' ms', s: ' s', noHold: 'none at this delay',
+    announce: 'After DELAY seconds: “PROMPT”. Now you can choose: not now, or open APP.'
+  };
+  (function () {
+    var el = document.querySelector('[data-demo-i18n]');
+    if (!el) return;
+    try {
+      var given = JSON.parse(el.textContent);
+      for (var k in given) { if (given[k]) L[k] = given[k]; }
+    } catch (e) { /* keep the English defaults */ }
+  })();
+
+  var REASON = L.prompt;
 
   /* A port of RevealTiming.plan in the app's Motion.kt, and it has to stay one:
      the whole claim of this section is that the pause on the page is the pause
@@ -120,8 +140,8 @@
       return el ? parseInt(el.value, 10) : 5;
     }
 
-    function fmtMs(ms) { return Math.round(ms) + ' ms'; }
-    function fmtS(ms) { return (ms / 1000).toFixed(2) + ' s'; }
+    function fmtMs(ms) { return Math.round(ms) + L.ms; }
+    function fmtS(ms) { return (ms / 1000).toFixed(2) + L.s; }
 
     function paintTable() {
       var p = plan(selectedDelay());
@@ -133,7 +153,7 @@
       set('step', fmtMs(p.step));
       set('end', fmtS(p.wordsEnd));
       set('buttons', fmtS(p.buttonsAt));
-      set('hold', p.overruns ? 'none at this delay' : fmtMs(p.hold));
+      set('hold', p.overruns ? L.noHold : fmtMs(p.hold));
       // When the floor pushes the sentence past the delay there IS no hold -
       // the buttons arrive mid-sentence. Saying "0 ms" would imply a beat that
       // merely rounds to nothing rather than one that does not exist.
@@ -160,7 +180,7 @@
       if (status) status.textContent = '';
       if (feed) feed.hidden = false;
       sentence.textContent = REASON;
-      runBtn.textContent = 'Open ';
+      runBtn.textContent = L.open + ' ';
       var slot = document.createElement('span');
       slot.setAttribute('data-app-name', '');
       slot.textContent = selectedApp();
@@ -187,7 +207,7 @@
 
       phone.classList.add('is-running');
       phone.classList.remove('is-done');
-      runBtn.textContent = 'Start over';
+      runBtn.textContent = L.restart;
 
       if (feed) timers.push(setTimeout(function () { feed.hidden = true; }, 220));
 
@@ -205,9 +225,10 @@
         // per word - a polite region updated eight times reads the sentence
         // eight times.
         if (status) {
-          status.textContent = 'After ' + selectedDelay() + ' seconds: “' +
-            REASON + '”. Now you can choose: not now, or open ' +
-            selectedApp() + '.';
+          status.textContent = L.announce
+            .replace('DELAY', selectedDelay())
+            .replace('PROMPT', REASON)
+            .replace('APP', selectedApp());
         }
       }, p.buttonsAt));
     }

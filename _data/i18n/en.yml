@@ -1,0 +1,275 @@
+# Copy for the English site. The markup lives once, in _includes/; this file and
+# ro.yml are the only places words are written.
+#
+# Duplicating the includes per language was the other option and it is the one
+# the brief estimated. It doubles markup maintenance forever: every layout fix,
+# every accessibility fix, every responsive change has to be made twice and
+# stays right only as long as nobody forgets. The site has already been bitten
+# twice today by two copies of one thing drifting apart.
+
+lang_name: English
+lang_code: en
+lang_switch_to: Română
+lang_switch_code: ro
+lang_switch_href: /ro/
+
+home_url: /
+
+# Every in-site URL, so a Romanian page never links into an English one by
+# accident. The pair of files is the only place these differ.
+url:
+  privacy: /privacy/
+  terms: /terms/
+  support: /support/
+  delete: /delete-my-data/
+
+nav:
+  label: Site
+  privacy: Privacy
+  terms: Terms
+  support: Support
+
+hero:
+  chip: No account · nothing leaves your phone
+  # One word per span, split on commas so a comma can never appear in the copy
+  # by accident and silently become two words.
+  title: A,few,seconds,between,you,and,your,reflex.
+  lede: >-
+    Clipa puts a short, deliberate pause between opening an app and using it. It
+    does not block anything and it never decides for you. It asks one question,
+    waits, and then gets out of the way.
+  cta_primary: See it happen
+  cta_secondary: How it works
+  note: Free for one app. No sign-up, ever.
+
+phone:
+  # The reason is a real string from the app, not invented copy.
+  prompt: so I have my evenings back
+  not_now: Not now
+  open: Open
+  # PROMPT and APP are substituted with replace. Kept as ONE sentence so a
+  # translator can move the slots wherever the grammar needs them.
+  aria: The Clipa pause, showing the sentence “PROMPT” with a Not now button and an Open APP button.
+
+footer:
+  tagline: A few seconds between you and your reflex. Built in Romania, stored on your phone.
+  col_app: The app
+  col_legal: Legal
+  try: Try it
+  how: How it works
+  pricing: Pricing
+  faq: Questions
+  privacy: Privacy
+  terms: Terms
+  delete: Delete my data
+  support: Support
+
+how:
+  eyebrow: How it works
+  title: Three steps, then it disappears.
+  steps:
+    - n: "01"
+      h: Pick your apps
+      p: The ones you open without deciding to. Most people start with one and know exactly which.
+    - n: "02"
+      h: Write your reason
+      p: >-
+        One line, in your own words. You will read it back at the exact moment
+        it is relevant, which is the only moment it works.
+    - n: "03"
+      h: Open the app anyway, or don’t
+      p: >-
+        There is always a way through. A lock you resent is a lock you
+        uninstall, so Clipa never becomes one.
+  why_title: Why a sentence, and not a countdown
+  why_p1: >-
+    A spinning ring can be watched with unfocused eyes. You learn its shape in a
+    day and then you are just waiting it out.
+  why_p2: >-
+    An unfinished sentence cannot be skimmed. Until the last word lands there is
+    nothing to hold, so you read it — and reading your own reason is the whole
+    mechanism.
+  ring_title: A ring
+  ring_body: Learned in a day. Watchable without reading.
+  sentence_title: A sentence
+  sentence_body: Cannot be parsed until it is finished.
+
+nots:
+  eyebrow: What it does not do
+  title: There is no account, because there is nothing to store.
+  p1: >-
+    Clipa sees which app came to the foreground and for how long. It never sees
+    what is inside one, and none of it leaves the phone.
+  p2: >-
+    There is no server to sign in to and nothing for anyone to lose. Your stats
+    live in your pocket and nowhere else. Export all of it whenever you like, or
+    delete all of it in one tap.
+  privacy_link: Read the privacy policy
+  rows:
+    - t: It does not block apps
+      b: Every pause has a way through. Friction, not a wall.
+    - t: It does not shame you
+      b: No red numbers, no grades, no “you failed today”.
+    - t: It does not count streaks
+      b: A streak is just a thing to lose, and losing it ends the habit.
+    - t: It has no account
+      b: Nothing to sign up for, nothing to sign in to, no password to forget.
+    - t: It sends nothing anywhere
+      b: No analytics by default. If you switch them on, they carry no content.
+    - t: It never plays a sound
+      b: Not once. It appears quietly or not at all.
+    - t: It does not sell anything on the pause
+      b: No upsell at the moment you are trying to make a decision.
+
+changed:
+  eyebrow: What changed
+  title: It counts the times you walked away, not the hours you lost.
+  p1: >-
+    Most screen-time apps hand you a number designed to make you feel bad, then
+    leave you with it. That works for about a week.
+  p2: >-
+    Clipa’s headline number is the one that went the way you wanted: the opens
+    you closed. Time per app is there if you want it, sitting quietly next to
+    the count, never added up into a verdict.
+  card_eyebrow: This week
+  card_label: times you closed it
+  days: [Mon, Thu, Sun]
+  note_title: Nothing here is a score
+  note_body: No streaks to break, no grade, no total that looks like a failure.
+
+cta:
+  title: One question, before the feed gets you.
+  body: >-
+    Clipa is finishing up and heading to Google Play. Write to me and I will
+    tell you once, on the day it is out.
+  subject: Tell me when Clipa is out
+  button: Tell me when it’s out
+  note: >-
+    No list, no newsletter, no service in the middle. It arrives in an inbox and
+    gets one reply.
+
+night:
+  eyebrow: After ten
+  title: At one in the morning, a white screen is not a neutral act.
+  p1: >-
+    Between 22:00 and 06:00 the pause changes its own colours — warm amber on
+    near-black, no blue — and it turns your screen brightness down while it is
+    on top. It never turns it up.
+  p2: >-
+    This is the hour the app was built for. It is also the hour most apps stop
+    caring.
+  pills:
+    - Warm palette, no blue
+    - Brightness lowered, never raised
+    - Never a sound
+  prompt: It is 01:14. Is this how you want to spend it?
+  app: Instagram
+
+pricing:
+  eyebrow: Pricing
+  title: Free for one app. Paid for the rest.
+  lede: >-
+    No trial that bills you quietly, no countdown, nothing pre-ticked. If one app
+    is your problem, the free version is the whole product.
+  # CURRENCY is substituted, so a translator can put it where the grammar wants.
+  regional: >-
+    Prices shown in Romanian CURRENCY. Google Play charges in your own currency
+    and the app always shows you that price, not this one.
+  free_name: Free
+  free_unit: CURRENCY, always
+  free_list:
+    - One app, slowed down
+    - Your own reason on the pause
+    - A wait of 1 to 10 seconds
+    - Every stat, and the night palette
+  full_tab: Everything
+  full_name: Clipa full
+  full_unit: CURRENCY a year — about PERMONTH a month
+  full_list:
+    - Every app, not just one
+    - Check-ins while you scroll
+    - As many of your own messages as you like
+    - A different wait for each app, up to 30 seconds
+  note: >-
+    Monthly is MONTHLY CURRENCY. Cancelling happens in Google Play, like every
+    other subscription on your phone.
+
+faq:
+  eyebrow: Questions
+  title: The ones worth asking.
+  intro_before: "If something is missing, "
+  intro_link: write in
+  intro_after: ". A person reads it."
+  items:
+    - q: Does it actually work, or is it another app I will delete?
+      a: >-
+        It works while the pause still makes you read. That is why the sentence
+        is your own words and why the prompts rotate — a fixed screen becomes
+        wallpaper in a week. Clipa is a few seconds of friction placed exactly
+        where the reflex lives; it is not therapy and it does not pretend to be.
+    - q: Can I get past it?
+      a: >-
+        Always, on every pause, with one tap. That is deliberate. An app you
+        cannot get out of is an app you uninstall in a bad moment, and then it
+        helps you never again.
+    - q: What can Clipa see?
+      a: >-
+        Which app came to the foreground, and for how long. That is the whole
+        list. It cannot see inside an app — not your messages, not what you
+        scrolled, not who you looked at — and it has nowhere to send anything
+        even if it could.
+    - q: Will it drain my battery?
+      a: >-
+        It stops looking entirely while your screen is off, which is most of the
+        day, and it holds no wake locks. The target is under one percent of a
+        day.
+    - q: Why does it need permission to draw over other apps?
+      a: >-
+        Because that is literally how the pause appears on top of the app you
+        just opened. Android treats it as a special permission and asks you
+        plainly, which is right. Clipa draws its own screen and never reads what
+        is underneath.
+    - q: Which phones does it run on?
+      a: >-
+        Android 11 and up. Some phones — Xiaomi and Samsung especially — kill
+        background apps aggressively, so Clipa checks whether it is still
+        running and tells you how to fix it on your specific phone rather than
+        failing silently.
+
+try:
+  eyebrow: Try it
+  title: Tap an app. Feel the pause.
+  lede: >-
+    This is the real thing: the same word-by-word reveal, the same clamped
+    timing, the same buttons arriving only when the wait is over. Set the delay
+    to whatever you would actually live with.
+  step1: Choose the app you lose time in
+  hint1: In the app this is a list of what is really on your phone. Here, three of the usual suspects.
+  step2: How long should it wait?
+  hint2: The app’s own range. Five seconds is the default.
+  seconds_abbr: s
+  table_caption: The timing this delay produces
+  row_words: words in the sentence
+  row_step: interval per word
+  row_end: the sentence finishes
+  row_buttons: buttons arrive
+  row_hold: the hold — a finished sentence, nothing to press
+  count: 7 times today
+  # What the table shows before JS runs. The reveal plan depends on the word
+  # count of the reason, and the reason is translated, so these differ per
+  # language. A no-JS reader must not be shown another language's arithmetic.
+  defaults:
+    words: "6"
+    step: 900 ms
+    end: 4.75 s
+    buttons: 5.00 s
+    hold: 250 ms
+  # Read by site.js from a JSON block, so the demo speaks the page's language.
+  js:
+    open: Open
+    restart: Start over
+    ms: " ms"
+    s: " s"
+    no_hold: none at this delay
+    # DELAY, PROMPT and APP are substituted at runtime.
+    announce: "After DELAY seconds: “PROMPT”. Now you can choose: not now, or open APP."

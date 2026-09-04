@@ -1,0 +1,25 @@
+{%- comment -%}
+  ONE masthead for both layouts, extracted for the same reason as head.html:
+  it was written out twice, and two copies of one thing is how the footer and
+  the two repos have already drifted.
+
+  The language toggle points at the other language's equivalent page. A page
+  that has a counterpart names it in front matter as alt_url; anything else
+  falls back to that language's home, which is honest - sending someone to a
+  page that does not exist in their language is worse than sending them to one
+  that does.
+{%- endcomment -%}
+{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
+<header class="masthead frame">
+  <a class="brand" href="{{ t.home_url | relative_url }}">
+    <span class="mark" aria-hidden="true"></span>
+    <span class="mark-name">Clipa</span>
+  </a>
+  <nav aria-label="{{ t.nav.label }}">
+    <a href="{{ t.url.privacy | relative_url }}">{{ t.nav.privacy }}</a>
+    <a href="{{ t.url.terms | relative_url }}">{{ t.nav.terms }}</a>
+    <a href="{{ t.url.support | relative_url }}">{{ t.nav.support }}</a>
+    {%- assign alt = page.alt_url | default: t.lang_switch_href -%}
+    <a class="lang" href="{{ alt | relative_url }}" lang="{{ t.lang_switch_code }}" hreflang="{{ t.lang_switch_code }}">{{ t.lang_switch_to }}</a>
+  </nav>
+</header>

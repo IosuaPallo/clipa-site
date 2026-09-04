@@ -207,6 +207,77 @@ jobs:
           sys.exit(bad)
           EOF
 
+      # A missing translation key does not fail a Jekyll build - it renders as
+      # an empty string. The Romanian page would ship with a blank heading and
+      # nothing anywhere would say so. The two tables must have the same shape,
+      # and the built pages must be in the language they claim.
+      #
+      # PyYAML rather than a hand-rolled parser. The first version of this step
+      # WAS hand-rolled, to avoid a dependency, and it disagreed with PyYAML on
+      # 12 of 116 keys - it would have failed CI on two tables that are in fact
+      # identical. A guard that cries wolf gets switched off.
+      - name: The two languages stay in step
+        run: |
+          pip install --quiet pyyaml
+          python3 - <<'EOF'
+          import os, re, sys, yaml
+
+          def shape(node, path=''):
+              out = set()
+              if isinstance(node, dict):
+                  for k, v in node.items():
+                      out |= shape(v, (path + '.' + str(k)).lstrip('.'))
+              elif isinstance(node, list):
+                  # Length matters: a list with a row missing is a section with
+                  # a row missing, and it renders as a shorter list rather than
+                  # as anything broken.
+                  out.add('%s[%d]' % (path, len(node)))
+              else:
+                  out.add(path)
+              return out
+
+          def load(p):
+              with open(p, encoding='utf-8') as f:
+                  return shape(yaml.safe_load(f))
+
+          en, ro = load('_data/i18n/en.yml'), load('_data/i18n/ro.yml')
+          bad = 0
+          for k in sorted(en - ro):
+              print('::error::ro.yml is missing %s - it would render blank' % k)
+              bad = 1
+          for k in sorted(ro - en):
+              print('::error::ro.yml has %s, which en.yml does not' % k)
+              bad = 1
+          if not bad:
+              print('both tables define the same %d keys' % len(en))
+
+          for path, lang in (('_site/index.html', 'en'), ('_site/ro/index.html', 'ro')):
+              if not os.path.isfile(path):
+                  print('::error::%s did not build' % path)
+                  bad = 1
+                  continue
+              html = open(path, encoding='utf-8').read()
+              m = re.search(r'<html lang="([^"]*)"', html)
+              if not m or m.group(1) != lang:
+                  print('::error::%s declares lang=%r, expected %r'
+                        % (path, m and m.group(1), lang))
+                  bad = 1
+
+          # Words that cannot appear in Romanian prose. A hit is a section that
+          # was never translated, not a stylistic quibble.
+          if os.path.isfile('_site/ro/index.html'):
+              body = open('_site/ro/index.html', encoding='utf-8').read()
+              body = re.sub(r'<script.*?</script>', '', body, flags=re.S)
+              body = re.sub(r'<style.*?</style>', '', body, flags=re.S)
+              body = re.sub(r'<[^>]+>', ' ', body)
+              for word in (' the ', ' and ', ' your ', 'Pricing', 'Questions',
+                           'How it works', 'Not now'):
+                  if word in body:
+                      print('::error::the Romanian page still contains %r' % word)
+                      bad = 1
+          sys.exit(bad)
+          EOF
+
       - name: No content page may render an empty config value
         run: |
           fail=0

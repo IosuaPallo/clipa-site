@@ -17,6 +17,7 @@
   would end up titled "Clipa" in the tab and "Clipa · Clipa" in every link
   preview, and nothing on the page would show it.
 {%- endcomment -%}
+{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
 {%- if page.title == site.title -%}
   {%- assign page_title = site.title -%}
 {%- else -%}
@@ -30,6 +31,21 @@
 <title>{{ page_title }}</title>
 <meta name="description" content="{{ page_desc }}">
 {% if site.url %}<link rel="canonical" href="{{ page.url | absolute_url }}">{% endif %}
+
+{%- comment -%}
+  hreflang. Each page names ITSELF and its counterpart, plus x-default for a
+  reader whose language is neither - that points at English, which is what the
+  bare domain serves.
+
+  Only pages that actually have a counterpart declare one: page.alt_url is set
+  in front matter, and a page without it emits nothing rather than pointing
+  Google at a URL that 404s.
+{%- endcomment -%}
+{%- if page.alt_url -%}
+<link rel="alternate" hreflang="{{ t.lang_code }}" href="{{ page.url | absolute_url }}">
+<link rel="alternate" hreflang="{{ t.lang_switch_code }}" href="{{ page.alt_url | absolute_url }}">
+<link rel="alternate" hreflang="x-default" href="{{ '/' | absolute_url }}">
+{%- endif -%}
 
 {%- comment -%}
   The browser chrome takes the site's own background rather than white, so the
@@ -52,7 +68,7 @@
 {%- endcomment -%}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{ site.title }}">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="{{ t.lang_code }}">
 <meta property="og:title" content="{{ page_title }}">
 <meta property="og:description" content="{{ page_desc }}">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
@@ -62,8 +78,27 @@
 <meta property="og:image:alt" content="Clipa — a few seconds between you and your reflex.">
 <meta name="twitter:card" content="summary_large_image">
 
+{%- comment -%}
+  Preload the faces THIS PAGE's language actually needs.
+
+  The two subsets split at U+0100: latin carries â and î, latin-ext carries ă, ș
+  and ț. Romanian needs both, and the hero headline proves it - "Câteva secunde
+  între tine și reflex." pulls â and î from one file and ș from the other.
+
+  Preloading only the latin pair, as this did, meant the Romanian hero revealed
+  word by word while ș was still in a fallback face, and then reflowed when the
+  real one arrived. The brief calls that out by name: a hero that reveals in a
+  fallback and then reflows is worse than no animation at all.
+
+  English pages do not preload latin-ext. It is 100 KB for glyphs an English
+  page never draws.
+{%- endcomment -%}
 <link rel="preload" href="{{ '/assets/fonts/literata-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{{ '/assets/fonts/ibm-plex-sans-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+{%- if page.lang == 'ro' %}
+<link rel="preload" href="{{ '/assets/fonts/literata-latin-ext.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ '/assets/fonts/ibm-plex-sans-latin-ext.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+{%- endif -%}
 {%- comment -%}
   CACHE BUSTING, and it is not decoration.
 

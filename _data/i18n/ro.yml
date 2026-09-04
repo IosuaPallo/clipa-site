@@ -1,0 +1,268 @@
+# Romanian copy. Terminology follows the SHIPPED app, not a fresh translation:
+# the headline is app string onb_value_headline word for word, the pause buttons
+# are overlay_primary and overlay_secondary, and the overlay-permission answer
+# borrows perm_overlay_body and perm_overlay_what. Somebody who reads this page
+# and then installs the app should meet the same words in the same register -
+# direct, calm, second person singular.
+
+lang_name: Română
+lang_code: ro
+lang_switch_to: English
+lang_switch_code: en
+lang_switch_href: /
+
+home_url: /ro/
+
+url:
+  privacy: /ro/confidentialitate/
+  terms: /ro/termeni/
+  support: /ro/asistenta/
+  delete: /ro/sterge-datele/
+
+nav:
+  label: Site
+  privacy: Confidențialitate
+  terms: Termeni
+  support: Asistență
+
+hero:
+  chip: Fără cont · nimic nu pleacă de pe telefon
+  # onb_value_headline in the app, word for word.
+  title: Câteva,secunde,între,tine,și,reflex.
+  lede: >-
+    Clipa pune o pauză scurtă și deliberată între momentul în care deschizi o
+    aplicație și momentul în care o folosești. Nu blochează nimic și nu decide
+    niciodată în locul tău. Pune o întrebare, așteaptă, apoi se dă la o parte.
+  cta_primary: Vezi cum arată
+  cta_secondary: Cum funcționează
+  note: Gratuit pentru o aplicație. Fără înregistrare, niciodată.
+
+phone:
+  prompt: ca să-mi recapăt serile
+  not_now: Nu acum
+  open: Deschide
+  aria: Pauza Clipa, cu propoziția „PROMPT”, un buton Nu acum și un buton Deschide APP.
+
+footer:
+  tagline: Câteva secunde între tine și reflex. Construit în România, păstrat pe telefonul tău.
+  col_app: Aplicația
+  col_legal: Legal
+  try: Încearc-o
+  how: Cum funcționează
+  pricing: Preț
+  faq: Întrebări
+  privacy: Confidențialitate
+  terms: Termeni
+  delete: Șterge-mi datele
+  support: Asistență
+
+how:
+  eyebrow: Cum funcționează
+  title: Trei pași, apoi dispare.
+  steps:
+    - n: "01"
+      h: Alege-ți aplicațiile
+      p: >-
+        Cele pe care le deschizi fără să te hotărăști. Cei mai mulți încep cu una
+        singură și știu exact care e.
+    - n: "02"
+      h: Scrie-ți motivul
+      p: >-
+        Un rând, cu vorbele tale. Îl vei reciti exact în momentul în care
+        contează, singurul moment în care funcționează.
+    - n: "03"
+      h: Intră oricum, sau nu
+      p: >-
+        Există mereu o cale prin. O barieră care te enervează e o barieră pe care
+        o dezinstalezi, așa că Clipa nu devine niciodată una.
+  why_title: De ce o propoziție și nu un cronometru
+  why_p1: >-
+    Un cerc care se învârte poate fi privit cu ochii în gol. Îi înveți forma
+    într-o zi și de atunci doar îl aștepți să treacă.
+  why_p2: >-
+    O propoziție neterminată nu poate fi parcursă din priviri. Până nu cade
+    ultimul cuvânt nu ai de ce să te agăți, așa că o citești — iar cititul
+    propriului motiv e tot mecanismul.
+  ring_title: Un cerc
+  ring_body: Învățat într-o zi. Poate fi privit fără să fie citit.
+  sentence_title: O propoziție
+  sentence_body: Nu poate fi înțeleasă până nu s-a terminat.
+
+nots:
+  eyebrow: Ce nu face
+  title: Nu există cont, pentru că nu există nimic de stocat.
+  p1: >-
+    Clipa vede ce aplicație a ajuns în față și pentru cât timp. Nu vede niciodată
+    ce e înăuntru și nimic din toate astea nu pleacă de pe telefon.
+  p2: >-
+    Nu există un server în care să te autentifici și nimic pe care cineva să îl
+    poată pierde. Datele tale stau în buzunarul tău și nicăieri altundeva.
+    Exportă-le oricând vrei sau șterge-le pe toate dintr-o apăsare.
+  privacy_link: Citește politica de confidențialitate
+  rows:
+    - t: Nu blochează aplicații
+      b: Fiecare pauză are o cale prin. Frecare, nu zid.
+    - t: Nu te face să te simți vinovat
+      b: Fără cifre roșii, fără note, fără „ai eșuat azi”.
+    - t: Nu numără serii
+      b: O serie e doar ceva de pierdut, iar pierderea ei termină obiceiul.
+    - t: Nu are cont
+      b: Nimic de creat, nimic în care să intri, nicio parolă de uitat.
+    - t: Nu trimite nimic nicăieri
+      b: Fără analitice implicit. Dacă le pornești, nu duc niciun conținut.
+    - t: Nu scoate niciun sunet
+      b: Niciodată. Apare în liniște sau deloc.
+    - t: Nu îți vinde nimic pe pauză
+      b: Fără reclamă fix în momentul în care încerci să iei o decizie.
+
+changed:
+  eyebrow: Ce s-a schimbat
+  title: Numără dățile în care ai plecat, nu orele pe care le-ai pierdut.
+  p1: >-
+    Cele mai multe aplicații de timp pe ecran îți dau o cifră făcută ca să te
+    simți prost, apoi te lasă cu ea. Asta ține cam o săptămână.
+  p2: >-
+    Cifra principală a Clipei e cea care a ieșit cum ai vrut tu: deschiderile pe
+    care le-ai închis. Timpul per aplicație e acolo dacă îl vrei, stă cuminte
+    lângă număr și nu e adunat niciodată într-un verdict.
+  card_eyebrow: Săptămâna asta
+  card_label: dăți în care ai închis-o
+  days: [Lun, Joi, Dum]
+  note_title: Nimic de aici nu e o notă
+  note_body: Fără serii de rupt, fără calificativ, fără un total care arată ca un eșec.
+
+night:
+  eyebrow: După zece
+  title: La unu noaptea, un ecran alb nu e un gest neutru.
+  p1: >-
+    Între 22:00 și 06:00 pauza își schimbă culorile — chihlimbar cald pe
+    aproape-negru, fără albastru — și scade luminozitatea ecranului cât timp e
+    deasupra. Nu o crește niciodată.
+  p2: >-
+    Asta e ora pentru care a fost construită aplicația. E și ora la care
+    majoritatea aplicațiilor încetează să le mai pese.
+  pills:
+    - Paletă caldă, fără albastru
+    - Luminozitate scăzută, niciodată crescută
+    - Niciodată un sunet
+  prompt: E 01:14. Așa vrei să ți-o petreci?
+  app: Instagram
+
+pricing:
+  eyebrow: Preț
+  title: Gratuit pentru o aplicație. Cu plată pentru restul.
+  lede: >-
+    Fără perioadă de probă care te taxează pe tăcute, fără numărătoare inversă,
+    fără nimic bifat dinainte. Dacă o singură aplicație e problema ta, versiunea
+    gratuită e tot produsul.
+  regional: >-
+    Prețurile sunt în CURRENCY. Google Play încasează în moneda ta, iar aplicația
+    îți arată mereu prețul acela, nu pe acesta.
+  free_name: Gratuit
+  free_unit: CURRENCY, mereu
+  free_list:
+    - O aplicație, încetinită
+    - Motivul tău pe pauză
+    - O așteptare de la 1 la 10 secunde
+    - Toate datele și paleta de noapte
+  full_tab: Tot
+  full_name: Clipa complet
+  full_unit: CURRENCY pe an — cam PERMONTH pe lună
+  full_list:
+    - Toate aplicațiile, nu doar una
+    - Verificări cât timp derulezi
+    - Oricâte mesaje proprii vrei
+    - O așteptare diferită pentru fiecare aplicație, până la 30 de secunde
+  note: >-
+    Lunar costă MONTHLY CURRENCY. Anularea se face din Google Play, ca la orice
+    alt abonament de pe telefon.
+
+faq:
+  eyebrow: Întrebări
+  title: Cele care merită puse.
+  intro_before: "Dacă lipsește ceva, "
+  intro_link: scrie-ne
+  intro_after: ". Citește un om."
+  items:
+    - q: Chiar funcționează sau e încă o aplicație pe care o voi șterge?
+      a: >-
+        Funcționează cât timp pauza încă te pune să citești. De asta propoziția e
+        cu vorbele tale și de asta mesajele se rotesc — un ecran fix devine tapet
+        într-o săptămână. Clipa e câteva secunde de frecare puse exact acolo unde
+        stă reflexul; nu e terapie și nu se preface că ar fi.
+    - q: Pot să trec de ea?
+      a: >-
+        Mereu, la fiecare pauză, dintr-o apăsare. E intenționat. O aplicație din
+        care nu poți ieși e o aplicație pe care o dezinstalezi într-un moment
+        prost, și de atunci nu te mai ajută niciodată.
+    - q: Ce poate să vadă Clipa?
+      a: >-
+        Ce aplicație a ajuns în față și pentru cât timp. Asta e toată lista. Nu
+        poate vedea în interiorul unei aplicații — nici mesajele tale, nici ce ai
+        derulat, nici la cine te-ai uitat — și nici nu are unde să trimită ceva,
+        chiar dacă ar putea.
+    - q: Îmi consumă bateria?
+      a: >-
+        Se oprește complet din a se uita cât timp ecranul tău e stins, adică cea
+        mai mare parte a zilei, și nu ține nicio blocare de trezire. Ținta e sub
+        un procent pe zi.
+    - q: De ce are nevoie de permisiunea de a desena peste alte aplicații?
+      a: >-
+        Pentru că exact așa apare pauza peste aplicația pe care tocmai ai
+        deschis-o. Android o tratează ca pe o permisiune specială și te întreabă
+        pe față, ceea ce e corect. Clipa își desenează propriul ecran și nu
+        citește niciodată ce e dedesubt.
+    - q: Pe ce telefoane merge?
+      a: >-
+        Android 11 și mai nou. Unele telefoane — Xiaomi și Samsung în special —
+        opresc agresiv aplicațiile din fundal, așa că Clipa verifică dacă mai
+        funcționează și îți spune cum să rezolvi pe telefonul tău, în loc să
+        cedeze în tăcere.
+
+try:
+  eyebrow: Încearc-o
+  title: Apasă o aplicație. Simte pauza.
+  lede: >-
+    Ăsta e lucrul real: aceeași apariție cuvânt cu cuvânt, aceeași sincronizare
+    limitată, aceleași butoane care apar doar când s-a terminat așteptarea. Pune
+    întârzierea la cât ai suporta cu adevărat.
+  step1: Alege aplicația în care pierzi timp
+  hint1: >-
+    În aplicație asta e lista cu ce ai tu cu adevărat pe telefon. Aici, trei
+    dintre suspecții obișnuiți.
+  step2: Cât să aștepte?
+  hint2: Intervalul aplicației. Cinci secunde e valoarea implicită.
+  seconds_abbr: s
+  table_caption: Sincronizarea pe care o produce această întârziere
+  row_words: cuvinte în propoziție
+  row_step: interval per cuvânt
+  row_end: propoziția se termină
+  row_buttons: butoanele apar
+  row_hold: pauza — o propoziție terminată, nimic de apăsat
+  count: de 7 ori azi
+  # The Romanian reason is four words, not six, so the reveal plan differs. A
+  # reader without JS must not be shown the English arithmetic.
+  defaults:
+    words: "4"
+    step: 900 ms
+    end: 2.95 s
+    buttons: 5.00 s
+    hold: 2050 ms
+  js:
+    open: Deschide
+    restart: Ia-o de la capăt
+    ms: " ms"
+    s: " s"
+    no_hold: niciuna la această întârziere
+    announce: "După DELAY secunde: „PROMPT”. Acum poți alege: nu acum, sau deschide APP."
+
+cta:
+  title: O întrebare, înainte să te ia feed-ul.
+  body: >-
+    Clipa e aproape gata și pleacă spre Google Play. Scrie-mi și îți spun o
+    singură dată, în ziua în care apare.
+  subject: Anunță-mă când apare Clipa
+  button: Anunță-mă când apare
+  note: >-
+    Fără listă, fără newsletter, fără vreun serviciu la mijloc. Ajunge într-o
+    căsuță de e-mail și primește un răspuns.

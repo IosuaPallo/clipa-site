@@ -1,6 +1,8 @@
 ---
 title: Delete my data
 description: How to delete everything Clipa holds.
+lang: en
+alt_url: /ro/sterge-datele/
 ---
 
 # Delete my data
@@ -43,4 +45,4 @@ delete.
 
 ---
 
-Full detail is in the [Privacy Policy](/privacy/).
+Full detail is in the [Privacy Policy]({{ '/privacy/' | relative_url }}).
