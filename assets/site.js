@@ -68,16 +68,32 @@
   var FIRST_WORD_MS = 250, MIN_STEP = 260, MAX_STEP = 900;
   var REASON = 'so I have my evenings back';
 
+  /* A port of RevealTiming.plan in the app's Motion.kt, and it has to stay one:
+     the whole claim of this section is that the pause on the page is the pause
+     on the phone.
+
+     BUTTONS ARRIVE AT n SECONDS, FULL STOP - not when the words finish. This
+     read Math.max(total, wordsEnd), which is wrong in exactly the case that
+     matters. Pick 1 s and the 260 ms floor pushes the sentence out to 1.55 s;
+     the app puts the buttons up at 1.00 s while the last words are still
+     landing, and this page held them back to 1.55 s and then reported 1.55 s
+     in its own table as though that were the app's behaviour. A demo that
+     disagrees with the product is worse than no demo.
+
+     Kotlin's .toInt() truncates, so the step is floored here for the same
+     reason - the interval the table prints should be the interval the phone
+     uses, to the millisecond. */
   function plan(seconds) {
     var words = REASON.split(' ');
     var total = seconds * 1000;
     var raw = (total - FIRST_WORD_MS) / (words.length - 1);
-    var step = Math.min(MAX_STEP, Math.max(MIN_STEP, raw));
+    var step = Math.floor(Math.min(MAX_STEP, Math.max(MIN_STEP, raw)));
     var wordsEnd = FIRST_WORD_MS + step * (words.length - 1);
-    var buttonsAt = Math.max(total, wordsEnd);
     return {
       words: words, step: step, wordsEnd: wordsEnd,
-      buttonsAt: buttonsAt, hold: buttonsAt - wordsEnd
+      buttonsAt: total,
+      hold: Math.max(0, total - wordsEnd),
+      overruns: wordsEnd > total
     };
   }
 
@@ -116,7 +132,12 @@
       set('step', fmtMs(p.step));
       set('end', fmtS(p.wordsEnd));
       set('buttons', fmtS(p.buttonsAt));
-      set('hold', fmtMs(p.hold));
+      set('hold', p.overruns ? 'none at this delay' : fmtMs(p.hold));
+      // When the floor pushes the sentence past the delay there IS no hold -
+      // the buttons arrive mid-sentence. Saying "0 ms" would imply a beat that
+      // merely rounds to nothing rather than one that does not exist.
+      var holdRow = section.querySelector('.try__hold');
+      if (holdRow) holdRow.classList.toggle('is-none', p.overruns);
     }
 
     function paintApp() {
