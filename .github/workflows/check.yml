@@ -137,6 +137,67 @@ jobs:
           print('link preview and icons resolve')
           EOF
 
+      # Contrast is a property of a PAIR, so it cannot be reviewed by looking at
+      # a colour. --text-3 shipped at #6E786F, which is the app's own token and
+      # looks entirely reasonable on its own; against --bg it was 4.03:1, and it
+      # was carrying 24 pieces of 13-15px text including every footer link.
+      #
+      # Checked at the token level rather than by rendering. That misses a pair
+      # nobody listed here, but it catches the regression that actually happens:
+      # somebody lightens a token because it looks heavy in isolation.
+      - name: Text colours clear their contrast thresholds
+        run: |
+          python3 - <<'EOF'
+          import re, sys
+
+          css = open('assets/site.css', encoding='utf-8').read()
+          tok = dict(re.findall(r'--([a-z0-9-]+)\s*:\s*(#[0-9A-Fa-f]{6})\s*;', css))
+
+          def lum(h):
+              c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+              c = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4
+                   for x in c]
+              return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+          def ratio(a, b):
+              la, lb = lum(a), lum(b)
+              return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+
+          # (foreground, background, minimum, what it is)
+          # 4.5 for body text, 3.0 for large text and for focus indicators.
+          PAIRS = [
+              ('text',      'bg',      4.5, 'body text'),
+              ('text',      'surface', 4.5, 'body text on a card'),
+              ('text-2',    'bg',      4.5, 'secondary text'),
+              ('text-2',    'surface', 4.5, 'secondary text on a card'),
+              ('text-3',    'bg',      4.5, 'tertiary text, 13-15px everywhere'),
+              ('text-3',    'surface', 4.5, 'tertiary text on a card'),
+              ('accent',    'bg',      3.0, 'the focus ring'),
+              ('accent',    'surface', 3.0, 'the focus ring on a card'),
+              ('ink-050',   'text',    4.5, 'the CTA title'),
+              ('ink-200',   'text',    4.5, 'the CTA body'),
+              ('ink-350',   'text',    4.5, 'the CTA note'),
+              ('green-400', 'text',    3.0, 'the focus ring on the dark card'),
+          ]
+
+          bad = 0
+          for fg, bg, need, what in PAIRS:
+              if fg not in tok or bg not in tok:
+                  print('::error::site.css no longer defines --%s or --%s'
+                        % (fg, bg))
+                  bad = 1
+                  continue
+              r = ratio(tok[fg], tok[bg])
+              flag = 'ok  ' if r >= need else 'FAIL'
+              print('  %s %-9s on %-8s %5.2f:1  (needs %.1f)  %s'
+                    % (flag, '--' + fg, '--' + bg, r, need, what))
+              if r < need:
+                  print('::error::--%s on --%s is %.2f:1, below the %.1f:1 %s needs'
+                        % (fg, bg, r, need, what))
+                  bad = 1
+          sys.exit(bad)
+          EOF
+
       - name: No content page may render an empty config value
         run: |
           fail=0
