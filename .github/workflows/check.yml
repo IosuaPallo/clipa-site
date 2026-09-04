@@ -32,6 +32,43 @@ jobs:
           source: ./
           destination: ./_site
 
+      # Reading the template cannot catch this class of bug, so read the OUTPUT.
+      #
+      # The headline is one <span> per word, and the separator between them was
+      # a literal space inside a Liquid conditional. Correct in the source,
+      # gone from the build: the page shipped reading "Afewseconds betweenyouand
+      # yourreflex." and stayed that way through two rounds of review, because
+      # every review looked at the input. Found by loading the real site.
+      #
+      # The build already ran above and nobody had ever looked at what it
+      # produced. This asserts on the rendered sentence rather than on the
+      # markup that is supposed to produce it, so it also catches a dropped
+      # word, a doubled one, or a wholesale change nobody meant.
+      - name: The headline keeps its spaces
+        run: |
+          python3 - <<'EOF'
+          import html, re, sys
+
+          want = "A few seconds between you and your reflex."
+          page = open('_site/index.html', encoding='utf-8').read()
+
+          m = re.search(r'<h1[^>]*class="[^"]*hero__title[^"]*"[^>]*>(.*?)</h1>',
+                        page, re.S)
+          if not m:
+              sys.exit("::error::no hero headline in the built page")
+
+          got = html.unescape(re.sub(r'<[^>]+>', '', m.group(1)))
+          got = ' '.join(got.split())
+
+          if got != want:
+              print("::error::the built headline is not the written one")
+              print("  want: %r" % want)
+              print("  got:  %r" % got)
+              sys.exit(1)
+
+          print("headline renders as: %s" % got)
+          EOF
+
       # The other way a page goes live half-filled, and the one that slipped
       # past the check above: a page referencing {{ site.contact_email }} while
       # _config.yml still has it empty. Jekyll renders that as nothing, so the
