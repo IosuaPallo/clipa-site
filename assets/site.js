@@ -267,6 +267,109 @@
     });
   }
 
+  /* -------------------------------------------------------------------------
+     In-page links — the hero's two buttons, the footer's four, the masthead.
+
+     scroll-behavior: smooth in the stylesheet is not enough, and the reason is
+     worth writing down. Chrome refuses to animate a scroll AT ALL when the OS
+     asks for reduced motion, and not merely through the media query, which a
+     stylesheet can override: an explicit scrollTo({behavior:'smooth'}) still
+     lands instantly. Measured in a browser with the setting on, not assumed.
+
+     So the glide is driven here on requestAnimationFrame, which that
+     suppression does not reach, and the CSS declaration is gone. One owner for
+     the behaviour rather than two that disagree - with both in play, every
+     frame of this animation would itself have been a smooth scroll.
+
+     This deliberately does NOT check `reduced`. The usual reason to drop
+     smooth scrolling for that preference is vestibular discomfort on long
+     animated jumps, so the compromise is duration: 260ms minimum, 620ms
+     ceiling however far the page travels, and any wheel, touch or key from the
+     reader cancels it mid-flight rather than fighting them for the scrollbar.
+
+     Without this file the links still work - an anchor jumps to its target,
+     which is the correct unenhanced behaviour.
+     ------------------------------------------------------------------------- */
+  function anchors() {
+    var MIN_MS = 260, MAX_MS = 620, MS_PER_1000PX = 320;
+    var running = null;
+
+    function ease(t) {
+      // easeInOutCubic: leaves and arrives at rest, so neither end snaps.
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function cancel() { running = null; }
+    ['wheel', 'touchstart', 'keydown'].forEach(function (type) {
+      window.addEventListener(type, cancel, { passive: true });
+    });
+
+    function glide(to, done) {
+      var from = window.pageYOffset;
+      var dist = to - from;
+      if (!dist) { done(); return; }
+
+      var ms = Math.min(MAX_MS, MIN_MS + Math.abs(dist) / 1000 * MS_PER_1000PX);
+      var token = {};
+      var start = null;
+      running = token;
+
+      // If frames never arrive the reader must STILL end up at the section.
+      // preventDefault has already taken the browser's own jump away, so a
+      // stalled animation means the link does nothing at all - which is how
+      // this was caught: in a pane painting at about 5fps the button moved the
+      // page not at all, where plain HTML would have worked. An enhancement is
+      // not allowed to leave a link dead.
+      var net = setTimeout(function () {
+        if (running !== token) return;
+        running = null;
+        window.scrollTo(0, to);
+        done();
+      }, ms + 300);
+
+      requestAnimationFrame(function step(now) {
+        if (running !== token) { clearTimeout(net); return; }   // reader took over
+        if (start === null) start = now;
+        var t = Math.min(1, (now - start) / ms);
+        window.scrollTo(0, from + dist * ease(t));
+        if (t < 1) { requestAnimationFrame(step); }
+        else { clearTimeout(net); running = null; done(); }
+      });
+    }
+
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;   // open in a tab
+
+      var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+      if (!a) return;
+
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) !== '#' || href === '#') return;
+
+      var target = document.getElementById(href.slice(1));
+      if (!target) return;
+
+      e.preventDefault();
+      glide(target.getBoundingClientRect().top + window.pageYOffset, function () {
+        // preventDefault also cancelled the focus move the browser does on a
+        // fragment jump, which is how a keyboard or screen-reader user knows
+        // they arrived. Put it back, or this "enhancement" quietly breaks the
+        // links for the people who most need them to work.
+        if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+
+        // The address bar should still end on the section, so the link can be
+        // copied and Back steps through the sections the way it always did.
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, '', href);
+        } else {
+          window.location.hash = href;
+        }
+      });
+    });
+  }
+
   /* Progressive enhancement only: <details> already opens and closes on its
      own, with correct keyboard and screen-reader behaviour. The class merely
      turns on the height transition. */
@@ -277,12 +380,13 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { hero(); demo(); night(); chart(); faq(); });
+    document.addEventListener('DOMContentLoaded', function () { hero(); demo(); night(); chart(); faq(); anchors(); });
   } else {
     hero();
     demo();
     night();
     chart();
     faq();
+    anchors();
   }
 })();
