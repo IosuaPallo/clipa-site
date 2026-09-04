@@ -75,6 +75,33 @@ blockquote p { margin: .35rem 0; }
 
 .updated { color: var(--text-3); font-size: .9rem; margin-bottom: 2.5rem; }
 
+/* Landing page only. The legal pages never use these. */
+img { max-width: 100%; height: auto; }
+
+.hero { margin-bottom: 3.5rem; }
+.hero h1 { font-size: 2.4rem; margin-bottom: 1rem; }
+.lede { font-size: 1.1rem; color: var(--text-2); }
+
+/* Honest placeholder until the listing exists. A store badge linking to a
+   404 reads as abandoned, which is worse than saying "not yet". */
+.soon {
+  display: inline-block; margin-top: 1.25rem; padding: .45rem 1rem;
+  border: 1px solid var(--outline); border-radius: 999px;
+  font-size: .85rem; color: var(--text-3);
+}
+
+.shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; margin: 3rem 0; }
+.shots figure { margin: 0; }
+.shots img { border-radius: 14px; border: 1px solid var(--outline); display: block; }
+.shots figcaption { margin-top: .7rem; font-size: .85rem; color: var(--text-3); text-align: center; }
+
+/* Three phones side by side stop being readable well before the page gets
+   narrow, so they stack rather than shrink. */
+@media (max-width: 34rem) {
+  .shots { grid-template-columns: 1fr; max-width: 19rem; margin-inline: auto; }
+  .hero h1 { font-size: 1.9rem; }
+}
+
 footer { margin-top: 5rem; padding-top: 1.5rem; border-top: 1px solid var(--outline); color: var(--text-3); font-size: .9rem; }
 footer a { color: var(--text-3); }
 footer nav { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-bottom: .75rem; }
