@@ -503,3 +503,113 @@ th { color: var(--text); font-weight: 600; }
 @media (prefers-reduced-motion: reduce) {
   [data-demo-phone].is-running .w { opacity: 1 !important; transform: none !important; }
 }
+
+/* ---------------------------------------------------------------------------
+   Shared section furniture
+   --------------------------------------------------------------------------- */
+
+.section__title { margin: var(--s8) 0 var(--s24); max-width: 22ch; }
+.icon { flex: none; }
+.link-arrow { display: inline-flex; align-items: center; gap: var(--s8); font-weight: 600; text-decoration: none; }
+.link-arrow:hover { text-decoration: underline; }
+
+/* ---------------------------------------------------------------------------
+   Section 3 — how it works
+   --------------------------------------------------------------------------- */
+
+.steps {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s40);
+  list-style: none; padding: 0; margin: var(--s56) 0 var(--s80);
+}
+@media (max-width: 860px) { .steps { grid-template-columns: 1fr; gap: var(--s32); } }
+.step { border-top: 1px solid var(--outline); padding-top: var(--s16); }
+.step__num { font-family: var(--font-serif); font-size: 15px; color: var(--outline-strong); }
+.step h3 { margin: var(--s12) 0 var(--s8); }
+.step p { margin: 0; font-size: 16px; line-height: 26px; }
+
+.why {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--s40);
+  background: var(--surface-variant); border-radius: var(--r-l); padding: var(--s40);
+}
+@media (max-width: 860px) { .why { grid-template-columns: 1fr; padding: var(--s24); } }
+.why__arg h3 { margin-top: 0; }
+.why__arg p { font-size: 16px; line-height: 26px; }
+.why__compare { display: grid; gap: var(--s16); align-content: center; }
+
+.compare {
+  display: flex; align-items: center; gap: var(--s16);
+  background: var(--surface); border: 1px solid var(--outline);
+  border-radius: var(--r-m); padding: var(--s16) var(--s20);
+}
+.compare--chosen { border: 1.5px solid var(--accent); }
+.compare__title { margin: 0; font-size: 15px; font-weight: 600; color: var(--text); }
+.compare__body { margin: var(--s4) 0 0; font-size: 14px; line-height: 20px; color: var(--text-3); }
+
+/* A ring you can watch without reading, against a sentence you cannot. The
+   two marks are the argument in miniature, so they are drawn rather than
+   described. */
+.compare__ring {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 3px solid var(--outline); border-top-color: var(--outline-strong);
+  flex: none;
+}
+.compare__lines { display: grid; gap: 5px; width: 34px; flex: none; }
+.compare__lines i { display: block; height: 3px; border-radius: 2px; background: var(--accent); }
+.compare__lines i:nth-child(2) { width: 78%; }
+.compare__lines i:nth-child(3) { width: 45%; background: var(--outline); }
+
+/* ---------------------------------------------------------------------------
+   Section 5 — what it does not do
+   --------------------------------------------------------------------------- */
+
+.nots { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+@media (max-width: 900px) { .nots { grid-template-columns: 1fr; gap: var(--s40); } }
+.nots__copy p { font-size: 16px; line-height: 26px; }
+
+.nots__list {
+  list-style: none; margin: 0; padding: 0;
+  border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--surface);
+}
+.nots__list li {
+  display: flex; gap: var(--s16); align-items: flex-start; margin: 0;
+  padding: var(--s16) var(--s20); border-bottom: 1px solid var(--outline);
+}
+.nots__list li:last-child { border-bottom: 0; }
+/* Colour on the mark, never on the words — seven red sentences would read as
+   seven warnings rather than seven reassurances. */
+.nots__icon { color: var(--destructive); display: flex; padding-top: 2px; }
+.nots__title { margin: 0; font-size: 16px; font-weight: 600; color: var(--text); }
+.nots__body { margin: var(--s4) 0 0; font-size: 14px; line-height: 21px; color: var(--text-3); }
+
+/* ---------------------------------------------------------------------------
+   Section 7 — pricing
+   --------------------------------------------------------------------------- */
+
+.pricing__lede { max-width: 60ch; }
+.pricing__regional { max-width: 60ch; font-size: 14px; color: var(--text-3); margin: 0 0 var(--s40); }
+
+.plans { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s24); max-width: 820px; }
+@media (max-width: 780px) { .plans { grid-template-columns: 1fr; } }
+
+.plan {
+  position: relative; background: var(--surface);
+  border: 1px solid var(--outline); border-radius: var(--r-l); padding: var(--s32);
+}
+.plan--full { border: 2px solid var(--accent); }
+.plan__tab {
+  position: absolute; top: 0; left: var(--s32); transform: translateY(-50%);
+  margin: 0; padding: var(--s4) var(--s12); border-radius: var(--r-pill);
+  background: var(--accent); color: #fff; font-size: 12px; font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+.plan__name { margin: 0; font-size: 15px; font-weight: 600; color: var(--text-2); }
+.plan__price { margin: var(--s8) 0 0; font-family: var(--font-serif); font-size: 40px; line-height: 1; color: var(--text); }
+.plan__unit { margin: var(--s8) 0 var(--s24); font-size: 14px; color: var(--text-3); }
+.plan__list { list-style: none; margin: 0; padding: 0; }
+.plan__list li {
+  display: flex; gap: var(--s12); align-items: flex-start;
+  margin: 0 0 var(--s12); font-size: 15px; line-height: 23px; color: var(--text-2);
+}
+.plan__list .icon { color: var(--accent); margin-top: 2px; }
+
+.pricing__note { margin: var(--s24) 0 0; max-width: 60ch; font-size: 14px; color: var(--text-3); }
