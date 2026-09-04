@@ -32,6 +32,31 @@ jobs:
           source: ./
           destination: ./_site
 
+      # The other way a page goes live half-filled, and the one that slipped
+      # past the check above: a page referencing {{ site.contact_email }} while
+      # _config.yml still has it empty. Jekyll renders that as nothing, so the
+      # sentence "write to {{ site.contact_email }}" publishes as "write to ."
+      # No placeholder to grep for, and the legal-page test does not run unless
+       # privacy.md or terms.md already exist.
+      #
+      # Only content pages are checked. The LAYOUT references site.developer in
+      # the footer, where empty renders as a blank line rather than a broken
+      # sentence - that is allowed while the site is a landing page only.
+      - name: No content page may render an empty config value
+        run: |
+          fail=0
+          for key in contact_email developer; do
+            if grep -qE "^${key}: *\"\"" _config.yml; then
+              hits=$(grep -rl "site\.${key}" --include="*.md" . || true)
+              if [ -n "$hits" ]; then
+                echo "::error::${key} is empty in _config.yml but used by: $hits"
+                fail=1
+              fi
+            fi
+          done
+          if [ $fail -eq 0 ]; then echo "no page renders an empty config value"; fi
+          exit $fail
+
       - name: A published legal page must be complete
         run: |
           if [ ! -f privacy.md ] && [ ! -f terms.md ]; then
