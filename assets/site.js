@@ -105,6 +105,7 @@
     var sentence = section.querySelector('[data-demo-sentence]');
     var runBtn   = section.querySelector('[data-demo-run]');
     var feed     = section.querySelector('[data-demo-feed]');
+    var status   = section.querySelector('[data-demo-status]');
     if (!phone || !sentence || !runBtn) return;
 
     var timers = [];
@@ -156,6 +157,7 @@
       timers = [];
       running = false;
       phone.classList.remove('is-running', 'is-done');
+      if (status) status.textContent = '';
       if (feed) feed.hidden = false;
       sentence.textContent = REASON;
       runBtn.textContent = 'Open ';
@@ -198,6 +200,15 @@
 
       timers.push(setTimeout(function () {
         phone.classList.add('is-done');
+        // The phone itself is aria-hidden, so this is the ONLY account of the
+        // demo a screen-reader user gets. Said once, at the end, rather than
+        // per word - a polite region updated eight times reads the sentence
+        // eight times.
+        if (status) {
+          status.textContent = 'After ' + selectedDelay() + ' seconds: “' +
+            REASON + '”. Now you can choose: not now, or open ' +
+            selectedApp() + '.';
+        }
       }, p.buttonsAt));
     }
 

@@ -73,7 +73,19 @@
     </div>
 
     <div class="try__device">
-      <div class="phone" data-demo-phone>
+      {%- comment -%}
+        The whole mock is aria-hidden. Every control inside it is a <span> -
+        the only real button in this section is "Open YouTube" below the
+        controls - so there is nothing here to operate, and a screen reader
+        was reading the frame out as raw text: "21:47 YouTube so I have my
+        evenings back 7 times today Not now Open YouTube". That is the fake
+        status bar the brief warned about.
+
+        The hero and night phones take role="img" with a label instead,
+        because they are static and one sentence describes them. This one
+        changes as it runs, so it is announced by the live region below.
+      {%- endcomment -%}
+      <div class="phone" data-demo-phone aria-hidden="true">
         <div class="phone__screen">
           <div class="phone__status" aria-hidden="true">
             <span>21:47</span><span class="phone__status-icons"></span>
@@ -104,5 +116,13 @@
         </div>
       </div>
     </div>
+
+    {%- comment -%}
+      The demo is otherwise silent to a screen reader: the phone is hidden and
+      the words appear with no announcement, so pressing the button did
+      nothing you could hear. This says what happened, once, when the pause
+      finishes - not per word, which would read the sentence out eight times.
+    {%- endcomment -%}
+    <p class="visually-hidden" role="status" aria-live="polite" data-demo-status></p>
   </div>
 </section>
