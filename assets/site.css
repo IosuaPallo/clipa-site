@@ -261,7 +261,6 @@ th { color: var(--text); font-weight: 600; }
 .section--surface { background: var(--surface); }
 @media (max-width: 720px) { .section { padding: 72px 0; } }
 
-.hero { padding: var(--s80) 0 var(--s56); }
 .hero h1 { max-width: 16ch; }
 .lede { font-size: 19px; line-height: 30px; color: var(--text-2); max-width: 54ch; }
 
@@ -305,12 +304,24 @@ th { color: var(--text); font-weight: 600; }
    Section 1 — hero
    --------------------------------------------------------------------------- */
 
+/* padding-BLOCK, not the padding shorthand.
+   
+   The section is class="hero frame", and .frame is what puts every band on the
+   page onto the same left edge. Writing `padding: 80px 0 112px` here reset the
+   horizontal half of that to zero, so the headline, the chip and the buttons
+   all sat 32px to the LEFT of the masthead, of every section heading below,
+   and of the footer. Measured at 1265px: hero 103, everything else 135.
+   
+   It reads as a page that starts slightly broken, and it is invisible in the
+   rule that causes it - the shorthand looks like it only sets the vertical
+   space it names. Set the block axis alone and .frame keeps the inline axis,
+   including its narrower gutter under 640px. */
 .hero {
   display: grid; grid-template-columns: 1fr 340px; gap: 72px;
-  align-items: center; padding: var(--s80) 0 112px;
+  align-items: center; padding-block: var(--s80) 112px;
 }
 @media (max-width: 960px) {
-  .hero { grid-template-columns: 1fr; gap: var(--s56); padding: var(--s56) 0 var(--s80); }
+  .hero { grid-template-columns: 1fr; gap: var(--s56); padding-block: var(--s56) var(--s80); }
   .hero__device { justify-self: center; }
 }
 
