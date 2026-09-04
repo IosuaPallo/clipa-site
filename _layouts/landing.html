@@ -13,6 +13,11 @@
 </head>
 <body>
 
+<!--
+  Full-bleed shell. The landing page is a designed composition of alternating
+  bands, so unlike the legal pages it must NOT be poured into a fixed measure -
+  each section owns its own background and sets its own width.
+-->
 <header class="masthead frame">
   <a class="brand" href="{{ '/' | relative_url }}">
     <span class="mark" aria-hidden="true"></span>
@@ -25,10 +30,8 @@
   </nav>
 </header>
 
-<main class="frame">
-  <div class="prose">
-    {{ content }}
-  </div>
+<main>
+  {{ content }}
 </main>
 
 <footer class="site-footer frame">
@@ -42,16 +45,5 @@
   {% if site.developer %}<p>{{ site.developer }}</p>{% endif %}
 </footer>
 
-<script>
-// Markdown tables get a scroll container so a wide table cannot make the whole
-// page scroll sideways on a phone. Progressive enhancement: without JS the
-// table simply renders, which is correct if not ideal.
-document.querySelectorAll('table').forEach(function (t) {
-  var box = document.createElement('div');
-  box.className = 'table-scroll';
-  t.parentNode.insertBefore(box, t);
-  box.appendChild(t);
-});
-</script>
 </body>
 </html>

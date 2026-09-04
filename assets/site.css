@@ -1,0 +1,226 @@
+/*
+  Clipa site.
+
+  Tokens are the APP's semantic names, lifted from ui/theme/Color.kt,
+  Motion.kt, Spacing.kt and Shape.kt. Keeping the names identical means a
+  change in the app has an obvious counterpart here, and a reviewer can
+  diff them by eye.
+*/
+
+:root {
+  /* light — Color.kt ClipaLightColors */
+  --bg: #EFF1EC;              /* sage100  */
+  --surface: #F7F8F4;         /* sage50   */
+  --surface-variant: #E3E7DE; /* sage200  */
+  --text: #16201A;            /* inkBlack */
+  --text-2: #4F5A52;          /* slate700 */
+  --text-3: #6E786F;          /* slate600 */
+  --accent: #2F5F4B;          /* green700 */
+  --accent-tint: #DCEAE1;     /* green050 */
+  --accent-deep: #16281F;     /* green900 — hover only, not an app token */
+  --outline: #CDD4C6;         /* sage300  */
+  --outline-strong: #7E8B7B;  /* sage500  */
+  --destructive: #9C4034;     /* brick700 */
+  --warning: #8A6A21;         /* used by the order-number callout */
+
+  /* dark band — ClipaDarkColors */
+  --ink-950: #0C0F0D;
+  --ink-900: #141814;
+  --ink-700: #2A322B;
+  --ink-300: #6B766D;
+  --ink-200: #9AA69C;
+  --ink-050: #E8ECE6;
+  --green-400: #86BFA3;
+
+  /* night band — ClipaNightColors */
+  --night-bg: #0D0B08;
+  --night-text: #E6D9C2;
+  --night-dim: #A2937C;
+  --night-accent: #C9A96A;
+  --night-outline: #241C13;
+  --night-outline-strong: #4A3D2A;
+
+  /* motion — Motion.kt, exactly */
+  --m-instant: 90ms;
+  --m-fast: 160ms;
+  --m-base: 240ms;
+  --m-slow: 380ms;
+  --m-exit: 200ms;
+  --e-standard: cubic-bezier(0.2, 0, 0, 1);
+  --e-decel: cubic-bezier(0, 0, 0, 1);
+  --e-emph-decel: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --e-emph-accel: cubic-bezier(0.3, 0, 0.8, 0.15);
+
+  /* spacing — Spacing.kt, 4 dp base */
+  --s4: 4px;  --s8: 8px;   --s12: 12px; --s16: 16px; --s20: 20px;
+  --s24: 24px; --s32: 32px; --s40: 40px; --s56: 56px; --s80: 80px;
+
+  /* radius — Shape.kt */
+  --r-s: 8px; --r-m: 14px; --r-l: 20px; --r-pill: 999px;
+
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: Literata, Georgia, "Times New Roman", serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--accent-deep); }
+
+/* Literata carries prompts and headlines only. In the app it means "this is a
+   sentence to read", and the site keeps that meaning — never UI chrome. */
+h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; line-height: 1.25; }
+h1 { font-size: clamp(2rem, 1.2rem + 2.8vw, 3.5rem); letter-spacing: -0.02em; margin: 0 0 var(--s16); }
+h2 { font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.375rem); letter-spacing: -0.02em; margin: var(--s56) 0 var(--s16); }
+h3 { font-family: var(--font-sans); font-size: 1.3125rem; line-height: 1.33; margin: var(--s32) 0 var(--s8); }
+
+p, li { color: var(--text-2); }
+strong { color: var(--text); font-weight: 600; }
+ul { padding-left: var(--s20); }
+li { margin: var(--s4) 0; }
+hr { border: 0; border-top: 1px solid var(--outline); margin: var(--s56) 0; }
+code {
+  font-size: .9em; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: var(--surface-variant); padding: .1em .35em; border-radius: var(--r-s);
+}
+
+.eyebrow {
+  font-size: 11px; line-height: 14px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .10em; color: var(--text-3);
+}
+
+/* ---------------------------------------------------------------------------
+   Shell — masthead, frame, footer. Shared by every page including the
+   generated legal ones, which is why nothing here assumes a landing page.
+   --------------------------------------------------------------------------- */
+
+.frame { max-width: 1060px; margin: 0 auto; padding: 0 var(--s32); }
+@media (max-width: 640px) { .frame { padding: 0 var(--s20); } }
+
+.masthead {
+  height: 64px; display: flex; align-items: center; gap: var(--s24);
+  border-bottom: 1px solid var(--outline);
+}
+.masthead .brand { display: flex; align-items: center; gap: var(--s12); text-decoration: none; }
+.masthead nav { margin-left: auto; display: flex; gap: var(--s20); flex-wrap: wrap; }
+.masthead nav a { font-size: 15px; color: var(--text-2); text-decoration: none; }
+.masthead nav a:hover { color: var(--text); }
+
+/* The icon's own idea: a solid field interrupted once. */
+.mark {
+  /* inline-block, not inline: outside the masthead's flex container nothing
+     blockifies this, and width/height silently do nothing on an inline span -
+     the mark renders as a hairline. */
+  display: inline-block;
+  width: 30px; height: 30px; border-radius: var(--r-s);
+  background: var(--accent); position: relative; flex: none;
+}
+.mark::after {
+  content: ""; position: absolute; left: 18%; right: 18%; top: 50%;
+  height: 1.5px; background: var(--bg); transform: translateY(-50%);
+}
+.mark-name { font-family: var(--font-serif); font-size: 1.25rem; color: var(--text); text-decoration: none; }
+
+/* Read rather than scanned, so a notch larger than the landing page. */
+/* Centred while nothing has a sidebar. Privacy and Terms gain a 236px table
+   of contents in the left column, and their layout overrides this - 660 alone
+   in a 1060 frame reads as a mistake rather than a measure. */
+.prose { max-width: 660px; margin-inline: auto; padding: var(--s56) 0 var(--s80); font-size: 17px; line-height: 28px; }
+.prose > h2:first-child, .prose > h1:first-child { margin-top: 0; }
+
+.updated { color: var(--text-3); font-size: 13px; line-height: 19px; margin: 0 0 var(--s40); }
+
+blockquote {
+  margin: var(--s24) 0; padding: var(--s12) var(--s20);
+  border-left: 2px solid var(--accent); background: var(--surface);
+  border-radius: 0 var(--r-s) var(--r-s) 0;
+}
+blockquote p { margin: var(--s4) 0; }
+
+/* Wide content scrolls inside its own box rather than pushing the page. */
+.table-scroll { overflow-x: auto; margin: var(--s16) 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { text-align: left; padding: var(--s12) var(--s16); border-bottom: 1px solid var(--outline); color: var(--text-2); }
+th { color: var(--text); font-weight: 600; }
+
+.site-footer {
+  border-top: 1px solid var(--outline); padding: var(--s32) 0;
+  color: var(--text-3); font-size: 14px;
+}
+.site-footer nav { display: flex; flex-wrap: wrap; gap: var(--s20); margin-bottom: var(--s12); }
+.site-footer a { color: var(--text-3); }
+
+/* ---------------------------------------------------------------------------
+   Pills — used by 404 and anywhere a short link list needs weight.
+   --------------------------------------------------------------------------- */
+
+.pills { display: flex; flex-wrap: wrap; gap: var(--s12); justify-content: center; padding: 0; list-style: none; }
+.pill {
+  display: inline-block; padding: var(--s8) var(--s16);
+  border: 1px solid var(--outline); border-radius: var(--r-pill);
+  color: var(--text-2); text-decoration: none; font-size: 15px;
+  transition: border-color var(--m-fast) var(--e-standard), color var(--m-fast) var(--e-standard);
+}
+.pill:hover { border-color: var(--outline-strong); color: var(--text); }
+
+/* ---------------------------------------------------------------------------
+   404
+   --------------------------------------------------------------------------- */
+
+.notfound { text-align: center; padding: var(--s80) 0; }
+.notfound .mark {
+  width: 56px; height: 56px; border-radius: var(--r-m); margin: 0 auto var(--s32);
+  background: var(--surface-variant); border: 1px solid var(--outline-strong);
+}
+.notfound .mark::after { background: var(--outline-strong); }
+.notfound h1 { font-size: 1.875rem; }
+.notfound p { max-width: 40ch; margin: 0 auto var(--s32); }
+
+/* ---------------------------------------------------------------------------
+   Landing page. Sections own their own background; the frame only sets width.
+   --------------------------------------------------------------------------- */
+
+.section { padding: 112px 0; }
+.section--surface { background: var(--surface); }
+@media (max-width: 720px) { .section { padding: 72px 0; } }
+
+.hero { padding: var(--s80) 0 var(--s56); }
+.hero h1 { max-width: 16ch; }
+.lede { font-size: 19px; line-height: 30px; color: var(--text-2); max-width: 54ch; }
+
+/* Honest placeholder until the listing exists. A store badge pointing at a 404
+   reads as abandoned, which is worse than saying "not yet". */
+.soon {
+  display: inline-block; margin-top: var(--s24); padding: var(--s8) var(--s16);
+  border: 1px solid var(--outline); border-radius: var(--r-pill);
+  font-size: 14px; color: var(--text-3);
+}
+
+.shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s20); margin: var(--s56) 0; }
+.shots figure { margin: 0; }
+.shots img { border-radius: var(--r-m); border: 1px solid var(--outline); display: block; }
+.shots figcaption { margin-top: var(--s12); font-size: 14px; color: var(--text-3); text-align: center; }
+
+/* Three phones stop being readable well before the page gets narrow, so they
+   stack rather than shrink. */
+@media (max-width: 720px) {
+  .shots { grid-template-columns: 1fr; max-width: 19rem; margin-inline: auto; }
+}

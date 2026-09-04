@@ -1,9 +1,10 @@
 ---
 title: Clipa
 description: A few seconds between you and your reflex.
+layout: landing
 ---
 
-<div class="hero" markdown="1">
+<div class="frame hero" markdown="1">
 
 # A few seconds between you and your reflex.
 
@@ -15,7 +16,7 @@ question, waits, and then gets out of the way.</p>
 
 </div>
 
-<div class="shots">
+<div class="frame shots">
   <figure>
     <img src="{{ '/img/pause.png' | relative_url }}"
          alt="The Clipa pause screen, showing the reason a person wrote for themselves, with Not now and Open YouTube buttons.">
@@ -32,6 +33,10 @@ question, waits, and then gets out of the way.</p>
     <figcaption>What actually changed</figcaption>
   </figure>
 </div>
+
+</div>
+
+<div class="frame" markdown="1">
 
 ## How it works
 
@@ -52,3 +57,5 @@ sign in to, and nothing for anyone to lose. Your stats live in your pocket and
 nowhere else.
 
 You can export everything you have at any time, or delete all of it in one tap.
+
+</div>

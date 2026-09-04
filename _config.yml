@@ -1,4 +1,9 @@
 # Provisional. setup.sh regenerates this file with the real values.
+# Absolute URLs for canonical links and og: tags. baseurl stays "" - the
+# site is served from the apex, so /clipa-site/ would 404 every link.
+url: "https://clipaapp.com"
+baseurl: ""
+
 title: Clipa
 description: A few seconds between you and your reflex.
 
