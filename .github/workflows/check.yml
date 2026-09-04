@@ -79,6 +79,64 @@ jobs:
       # Only content pages are checked. The LAYOUT references site.developer in
       # the footer, where empty renders as a blank line rather than a broken
       # sentence - that is allowed while the site is a landing page only.
+      # A link preview and a favicon fail silently by their nature: nobody on
+      # the team ever sees them, because you only meet them in someone else's
+      # chat window or someone else's tab strip. So they get asserted here.
+      #
+      # og:image especially - a relative one resolves against the SCRAPER's host
+      # and the card renders blank, which looks like the scraper's fault.
+      - name: The link preview and the icons resolve
+        run: |
+          python3 - <<'EOF'
+          import json, os, re, sys
+          from urllib.parse import urlparse
+
+          page = open('_site/index.html', encoding='utf-8').read()
+          bad = []
+
+          def meta(attr, key):
+              m = re.search(r'<meta %s="%s" content="([^"]*)"' % (attr, key), page)
+              return m.group(1) if m else None
+
+          img = meta('property', 'og:image')
+          if not img:
+              bad.append('og:image is missing')
+          elif not img.startswith(('http://', 'https://')):
+              bad.append('og:image is not absolute: %r' % img)
+          else:
+              path = os.path.join('_site', urlparse(img).path.lstrip('/'))
+              if not os.path.isfile(path):
+                  bad.append('og:image points at %s, which the build did not produce' % path)
+
+          for f in ('favicon.svg', 'favicon.ico', 'apple-touch-icon.png'):
+              if not os.path.isfile(os.path.join('_site', f)):
+                  bad.append('%s is not in the build' % f)
+              if f not in page:
+                  bad.append('%s is not linked from the page' % f)
+
+          # Half-rendered JSON-LD is invalid JSON and looks fine on the page.
+          m = re.search(r'<script type="application/ld\+json">(.*?)</script>', page, re.S)
+          if not m:
+              bad.append('no JSON-LD on the home page')
+          else:
+              try:
+                  data = json.loads(m.group(1))
+                  # Only ever claim what is true: Clipa is not on Play yet, so a
+                  # price or a rating here would be markup for a product nobody
+                  # can buy.
+                  for k in ('offers', 'aggregateRating', 'review'):
+                      if k in data:
+                          bad.append('JSON-LD claims %r while the app is unreleased' % k)
+              except ValueError as e:
+                  bad.append('JSON-LD is not valid JSON: %s' % e)
+
+          if bad:
+              for b in bad:
+                  print('::error::%s' % b)
+              sys.exit(1)
+          print('link preview and icons resolve')
+          EOF
+
       - name: No content page may render an empty config value
         run: |
           fail=0
