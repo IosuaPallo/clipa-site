@@ -64,7 +64,24 @@
 
 <link rel="preload" href="{{ '/assets/fonts/literata-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{{ '/assets/fonts/ibm-plex-sans-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}">
+{%- comment -%}
+  CACHE BUSTING, and it is not decoration.
+
+  Pages serves the assets with max-age=600, and a browser holding site.css does
+  not re-fetch it just because the page reloaded - the URL is identical, so
+  there is nothing to re-fetch. A CSS fix can therefore be live, correct, and
+  completely invisible to anyone who has seen the site before, which is exactly
+  what happened with the hero padding: verified deployed, verified 32px in a
+  clean browser, and still flush against the edge for the person who reported
+  it. "Hard refresh" is not a fix, it is asking every visitor to debug for us.
+
+  site.time changes on every build, so one deploy is one new URL. The fonts are
+  deliberately NOT versioned - they are 127 KB and they never change, and
+  re-downloading them on every deploy to solve a problem they do not have would
+  cost more than it saves.
+{%- endcomment -%}
+{%- assign v = site.time | date: '%s' -%}
+<link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}?v={{ v }}">
 
 {%- comment -%}
   Structured data, and deliberately only what is TRUE today.
