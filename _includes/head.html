@@ -1,0 +1,94 @@
+{%- comment -%}
+  ONE head for both layouts.
+
+  It was duplicated in default.html and landing.html, which is how the footer
+  drifted: a change lands in the layout you happen to have open and the other
+  one keeps the old version until somebody loads the page and notices. There is
+  nothing here that differs between a landing page and a legal page, so there is
+  nothing to duplicate.
+
+  Everything below is driven by front matter. A page that sets neither title nor
+  description falls back to the site's, which is wrong but never blank - and
+  every page currently sets both.
+{%- endcomment -%}
+{%- comment -%}
+  Worked out ONCE. The same conditional used to appear in the <title> and again
+  in og:title, which is two places to change and one to forget - the home page
+  would end up titled "Clipa" in the tab and "Clipa · Clipa" in every link
+  preview, and nothing on the page would show it.
+{%- endcomment -%}
+{%- if page.title == site.title -%}
+  {%- assign page_title = site.title -%}
+{%- else -%}
+  {%- capture page_title %}{{ page.title }} · {{ site.title }}{% endcapture -%}
+{%- endif -%}
+{%- assign page_desc = page.description | default: site.description -%}
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>{{ page_title }}</title>
+<meta name="description" content="{{ page_desc }}">
+{% if site.url %}<link rel="canonical" href="{{ page.url | absolute_url }}">{% endif %}
+
+{%- comment -%}
+  The browser chrome takes the site's own background rather than white, so the
+  address bar does not flash a colour that appears nowhere on the page.
+{%- endcomment -%}
+<meta name="theme-color" content="#EFF1EC">
+
+{%- comment -%}
+  SVG first for anything modern, .ico for everything that still asks for
+  /favicon.ico without being told. Both are the mark alone: at 16px the
+  wordmark is four grey pixels.
+{%- endcomment -%}
+<link rel="icon" href="{{ '/favicon.svg' | relative_url }}" type="image/svg+xml">
+<link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="32x32">
+<link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png' | relative_url }}">
+
+{%- comment -%}
+  The link preview. og:image must be absolute - a relative one silently
+  resolves against the scraper's own host and the card renders blank.
+{%- endcomment -%}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:locale" content="en">
+<meta property="og:title" content="{{ page_title }}">
+<meta property="og:description" content="{{ page_desc }}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:image" content="{{ '/img/og.png' | absolute_url }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Clipa — a few seconds between you and your reflex.">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" href="{{ '/assets/fonts/literata-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ '/assets/fonts/ibm-plex-sans-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}">
+
+{%- comment -%}
+  Structured data, and deliberately only what is TRUE today.
+
+  No offers, no price, no aggregateRating. Clipa is not on Google Play yet, so
+  a price or a rating here would be a claim about a product nobody can buy -
+  and Google treats fabricated offer markup as a manual-action matter, not a
+  style question. The prices in _config.yml are also still unverified against
+  the Play Console, which is exactly the sort of number that must not be
+  restated as machine-readable fact.
+
+  Add offers when the listing is live and the products are confirmed.
+{%- endcomment -%}
+{%- if page.url == '/' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Clipa",
+  "url": {{ site.url | jsonify }},
+  "description": {{ site.description | jsonify }},
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Android 11+",
+  "image": {{ '/img/og.png' | absolute_url | jsonify }}
+}
+</script>
+{%- endif -%}
