@@ -2,7 +2,8 @@
   Three columns on the landing page. The year is derived rather than typed -
   a hardcoded one is wrong every January and nobody notices for months.
 {%- endcomment -%}
-{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign t = site.data.i18n[lang] -%}
 <footer class="site-footer">
   <div class="frame footer">
     <div class="footer__brand">

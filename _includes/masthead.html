@@ -9,7 +9,8 @@
   page that does not exist in their language is worse than sending them to one
   that does.
 {%- endcomment -%}
-{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign t = site.data.i18n[lang] -%}
 <header class="masthead frame">
   <a class="brand" href="{{ t.home_url | relative_url }}">
     <span class="mark" aria-hidden="true"></span>

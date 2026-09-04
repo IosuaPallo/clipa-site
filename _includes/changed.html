@@ -11,7 +11,14 @@
   Highest bar full --accent, the rest 55% - the app's own ChartAlpha, so the
   chart on the marketing page and the chart in Stats read as the same object.
 {%- endcomment -%}
-{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
+{%- comment -%}
+  Two steps, and they have to be two. Liquid does not evaluate filters
+  inside a bracket lookup, so site.data.i18n[page.lang | default: 'en']
+  is not a default - it silently resolves to nothing, and every string on
+  the page renders empty. The build stays green while the page goes blank.
+{%- endcomment -%}
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign t = site.data.i18n[lang] -%}
 
 <section class="section section--surface" id="changed">
   <div class="frame changed">

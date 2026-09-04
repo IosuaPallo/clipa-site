@@ -1,4 +1,5 @@
-{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign t = site.data.i18n[lang] -%}
 
 <section class="section" id="not">
   <div class="frame nots">

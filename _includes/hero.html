@@ -11,7 +11,8 @@
   than relying on a variable the caller set, so it behaves the same whether it
   is included from index.md or from a layout.
 {%- endcomment -%}
-{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign t = site.data.i18n[lang] -%}
 
 <section class="hero frame" id="hero">
   <div class="hero__copy">

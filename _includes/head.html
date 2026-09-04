@@ -17,7 +17,8 @@
   would end up titled "Clipa" in the tab and "Clipa · Clipa" in every link
   preview, and nothing on the page would show it.
 {%- endcomment -%}
-{%- assign t = site.data.i18n[page.lang | default: 'en'] -%}
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign t = site.data.i18n[lang] -%}
 {%- if page.title == site.title -%}
   {%- assign page_title = site.title -%}
 {%- else -%}
