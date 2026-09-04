@@ -476,6 +476,10 @@ th { color: var(--text); font-weight: 600; }
 .try__table th { font-weight: 400; color: var(--text-2); }
 .try__table td { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; }
 .try__hold th, .try__hold td { background: var(--accent-tint); }
+/* At 1 s the 260 ms floor pushes the sentence out past the delay, so there is
+   no hold at all - the buttons arrive while words are still landing. Keeping
+   the tint would highlight a beat that does not exist at that setting. */
+.try__hold.is-none th, .try__hold.is-none td { background: none; color: var(--text-3); }
 
 /* The abstract feed. Mimicking a real one is a trademark problem and a
    distraction; this only has to read as "a screen you were about to scroll". */
@@ -507,7 +511,27 @@ th { color: var(--text); font-weight: 600; }
 [data-demo-phone].is-running [data-demo-feed] { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-demo-phone].is-running .w { opacity: 1 !important; transform: none !important; }
+  /* The FADE goes. The ARRIVAL does not.
+
+     This used to force opacity:1 on every word, which meant a visitor with
+     reduced motion pressed the button and was handed the finished sentence in
+     the first frame. The one thing the demo exists to show - words arriving
+     over five seconds - was the thing it removed, and the section still said
+     "Feel the pause" above a phone where nothing happened.
+
+     site.js has claimed this all along: "Reduced motion still runs the CLOCK -
+     the wait is the product, so it is not an animation to be skipped. Only the
+     per-word fade goes." The script was right and the stylesheet overrode it.
+
+     The app draws the same distinction in SentenceReveal.kt: under reduced
+     motion it drops the word fade but KEEPS the hairline animating, because
+     otherwise elapsed time becomes invisible. Time passing is content here,
+     not decoration.
+
+     So each word still lands at its scheduled moment - it just lands, rather
+     than rising and fading in. */
+  [data-demo-phone].is-running .w { transform: none; }
+  [data-demo-phone].is-running .w.in { transition: none; }
 }
 
 /* ---------------------------------------------------------------------------
