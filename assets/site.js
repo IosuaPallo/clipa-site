@@ -201,10 +201,67 @@
     paintDelay();
   }
 
+
+  /* -------------------------------------------------------------------------
+     Sections 4 and 6 — the scroll-triggered pair.
+
+     Both follow the hero's inversion rule: the CSS default is the FINISHED
+     state, and the script sets the starting state before the observer can
+     fire. So with no JavaScript the night band is already dark and the chart
+     bars are already drawn - never an empty box waiting for something that is
+     not coming.
+     ------------------------------------------------------------------------- */
+
+  function once(el, ratio, fn) {
+    if (!('IntersectionObserver' in window)) { fn(); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { fn(); io.disconnect(); }
+      });
+    }, { threshold: ratio });
+    io.observe(el);
+  }
+
+  function night() {
+    var band = document.querySelector('[data-night]');
+    if (!band || reduced) return;      // reduced motion: leave it dark
+    band.classList.add('is-light');
+    once(band, 0.35, function () { band.classList.remove('is-light'); });
+  }
+
+  function chart() {
+    var el = document.querySelector('[data-chart]');
+    if (!el || reduced) return;        // reduced motion: leave the bars drawn
+    el.classList.add('is-pending');
+    once(el, 0.35, function () {
+      var bars = el.querySelectorAll('.chart__bar');
+      for (var i = 0; i < bars.length; i++) {
+        (function (bar, i) {
+          setTimeout(function () { bar.style.height = ''; }, 25 * i);
+        })(bars[i], i);
+      }
+      // The stagger is on the individual bars, so the pending class comes off
+      // only after the last one has been released.
+      setTimeout(function () { el.classList.remove('is-pending'); }, 25 * bars.length);
+    });
+  }
+
+  /* Progressive enhancement only: <details> already opens and closes on its
+     own, with correct keyboard and screen-reader behaviour. The class merely
+     turns on the height transition. */
+  function faq() {
+    if (document.querySelector('.faq__list')) {
+      document.documentElement.classList.add('js-faq');
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { hero(); demo(); });
+    document.addEventListener('DOMContentLoaded', function () { hero(); demo(); night(); chart(); faq(); });
   } else {
     hero();
     demo();
+    night();
+    chart();
+    faq();
   }
 })();
