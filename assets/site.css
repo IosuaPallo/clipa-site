@@ -272,3 +272,120 @@ th { color: var(--text); font-weight: 600; }
 @media (max-width: 720px) {
   .shots { grid-template-columns: 1fr; max-width: 19rem; margin-inline: auto; }
 }
+
+/* ---------------------------------------------------------------------------
+   Buttons
+   --------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 52px; padding: 0 var(--s24); border-radius: var(--r-pill);
+  font-size: 16px; font-weight: 600; text-decoration: none;
+  transition: background var(--m-fast) var(--e-standard),
+              border-color var(--m-fast) var(--e-standard),
+              color var(--m-fast) var(--e-standard);
+}
+.btn--primary { background: var(--accent); color: #fff; }
+.btn--primary:hover { background: var(--accent-deep); color: #fff; }
+.btn--ghost { border: 1px solid var(--outline); color: var(--text); }
+.btn--ghost:hover { border-color: var(--outline-strong); color: var(--text); }
+
+/* ---------------------------------------------------------------------------
+   Section 1 — hero
+   --------------------------------------------------------------------------- */
+
+.hero {
+  display: grid; grid-template-columns: 1fr 340px; gap: 72px;
+  align-items: center; padding: var(--s80) 0 112px;
+}
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; gap: var(--s56); padding: var(--s56) 0 var(--s80); }
+  .hero__device { justify-self: center; }
+}
+
+.hero__chip {
+  display: inline-block; margin: 0 0 var(--s24);
+  padding: var(--s8) var(--s16); border: 1px solid var(--outline);
+  border-radius: var(--r-pill); background: var(--surface);
+  font-size: 13px; line-height: 19px; color: var(--text-3);
+}
+.hero__title { max-width: 15ch; margin: 0 0 var(--s24); }
+.hero .lede { margin: 0 0 var(--s32); }
+.hero__actions { display: flex; flex-wrap: wrap; gap: var(--s12); margin: 0 0 var(--s20); }
+.hero__note { margin: 0; font-size: 14px; color: var(--text-3); }
+
+/* Each word is its own inline-block so it can be moved without reflowing the
+   line. Visible by DEFAULT — the script hides them, not the stylesheet. */
+.hero__title .w { display: inline-block; }
+
+.js-reveal .hero__title .w,
+.js-reveal [data-reveal="chip"],
+.js-reveal [data-reveal="rest"],
+.js-reveal [data-reveal="phone"] { opacity: 0; }
+
+.js-reveal .hero__title .w { transform: translateY(6px); }
+.js-reveal [data-reveal="phone"] { transform: translateY(16px); }
+
+.js-reveal .hero__title .w.in {
+  opacity: 1; transform: none;
+  transition: opacity 180ms var(--e-decel), transform 180ms var(--e-decel);
+}
+.js-reveal [data-reveal].in {
+  opacity: 1; transform: none;
+  transition: opacity var(--m-base) var(--e-emph-decel), transform var(--m-slow) var(--e-emph-decel);
+}
+
+/* Someone who asked for less motion gets the finished state, not a slower
+   version of the animation. The script checks this too and skips the
+   sequence entirely, so nothing is merely hidden by a transition. */
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal .hero__title .w,
+  .js-reveal [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ---------------------------------------------------------------------------
+   The CSS phone
+   --------------------------------------------------------------------------- */
+
+.phone {
+  width: 300px; height: 628px; flex: none;
+  border-radius: 38px; padding: 10px;
+  background: var(--text); box-shadow: 0 24px 60px -28px rgba(22, 32, 26, .45);
+}
+.phone__screen {
+  position: relative; height: 100%; border-radius: 28px;
+  background: var(--bg); overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.phone__status {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--s16) var(--s20) 0;
+  font-size: 12px; font-weight: 600; color: var(--text);
+}
+.phone__status-icons { width: 42px; height: 8px; border-radius: 4px; background: var(--outline); }
+
+/* 42% optical centre, the app's own figure. True middle reads low. */
+.phone__prompt {
+  position: absolute; left: 0; right: 0; top: 42%; transform: translateY(-50%);
+  padding: 0 var(--s24); text-align: center;
+}
+.phone__sentence {
+  margin: 0; font-family: var(--font-serif);
+  font-size: 23px; line-height: 32px; letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.phone__actions {
+  margin-top: auto; padding: var(--s20); display: grid; gap: var(--s12);
+}
+.phone__btn {
+  display: flex; align-items: center; justify-content: center;
+  height: 48px; border-radius: var(--r-pill);
+  font-size: 15px; font-weight: 500;
+}
+.phone__btn--primary { background: var(--accent); color: #fff; }
+.phone__btn--secondary { border: 1px solid var(--outline-strong); color: var(--text); }
+
+@media (max-width: 380px) {
+  .phone { width: 100%; max-width: 300px; height: auto; aspect-ratio: 300 / 628; }
+}

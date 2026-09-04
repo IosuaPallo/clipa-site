@@ -1,22 +1,12 @@
 ---
 title: Clipa
-description: A few seconds between you and your reflex.
+description: A few seconds between you and your reflex. Clipa puts a short, deliberate pause between opening an app and using it.
 layout: landing
 ---
 
-<div class="frame hero" markdown="1">
+{% include hero.html %}
 
-# A few seconds between you and your reflex.
-
-<p class="lede">Clipa puts a short, deliberate pause between opening an app and
-using it. It does not block anything, and it never decides for you — it asks one
-question, waits, and then gets out of the way.</p>
-
-<p class="soon">Coming soon to Google&nbsp;Play</p>
-
-</div>
-
-<div class="frame shots">
+<div class="frame shots" id="try">
   <figure>
     <img src="{{ '/img/pause.png' | relative_url }}"
          alt="The Clipa pause screen, showing the reason a person wrote for themselves, with Not now and Open YouTube buttons.">
@@ -34,9 +24,7 @@ question, waits, and then gets out of the way.</p>
   </figure>
 </div>
 
-</div>
-
-<div class="frame" markdown="1">
+<div class="frame" id="how" markdown="1">
 
 ## How it works
 

@@ -1,0 +1,42 @@
+{%- comment -%}
+  Section 1 — the reveal.
+
+  The headline is server-rendered as one <span> per word, so the whole sentence
+  is in the DOM for crawlers and for anyone whose JS never runs. Every word is
+  opacity:1 in the CSS by default; the script ADDS a class that hides them and
+  then brings them back. Never the other way round - a hero that starts
+  invisible and needs JS to appear is a blank page for someone.
+{%- endcomment -%}
+
+<section class="hero frame" id="hero">
+  <div class="hero__copy">
+    <p class="hero__chip" data-reveal="chip">No account · nothing leaves your phone</p>
+
+    <h1 class="hero__title" data-reveal="title">
+      {%- assign words = "A,few,seconds,between,you,and,your,reflex." | split: "," -%}
+      {%- for w in words -%}
+        <span class="w">{{ w }}</span>{% unless forloop.last %} {% endunless %}
+      {%- endfor -%}
+    </h1>
+
+    <p class="lede" data-reveal="rest">
+      Clipa puts a short, deliberate pause between opening an app and using it.
+      It does not block anything and it never decides for you. It asks one
+      question, waits, and then gets out of the way.
+    </p>
+
+    <p class="hero__actions" data-reveal="rest">
+      <a class="btn btn--primary" href="#try">See it happen</a>
+      <a class="btn btn--ghost" href="#how">How it works</a>
+    </p>
+
+    <p class="hero__note" data-reveal="rest">Free for one app. No sign-up, ever.</p>
+  </div>
+
+  <div class="hero__device" data-reveal="phone">
+    {% include phone.html
+       prompt="so I have my evenings back"
+       app="YouTube"
+       time="21:47" %}
+  </div>
+</section>

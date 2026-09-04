@@ -1,0 +1,23 @@
+{%- comment -%}
+  A CSS phone, not an image: it has to hold live text in section 2's demo, and
+  a screenshot cannot. 300 x 628, the light palette, and the prompt sits at the
+  app's 42% optical centre rather than true middle - measured, not guessed:
+  true centre reads slightly low.
+{%- endcomment -%}
+<div class="phone" role="img" aria-label="The Clipa pause, showing the sentence “{{ include.prompt }}” with a Not now button and an Open {{ include.app }} button.">
+  <div class="phone__screen">
+    <div class="phone__status" aria-hidden="true">
+      <span>{{ include.time }}</span>
+      <span class="phone__status-icons"></span>
+    </div>
+
+    <div class="phone__prompt">
+      <p class="phone__sentence">{{ include.prompt }}</p>
+    </div>
+
+    <div class="phone__actions">
+      <span class="phone__btn phone__btn--primary">Not now</span>
+      <span class="phone__btn phone__btn--secondary">Open {{ include.app }}</span>
+    </div>
+  </div>
+</div>
