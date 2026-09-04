@@ -1,0 +1,32 @@
+{%- comment -%}
+  Three columns on the landing page. The year is derived rather than typed -
+  a hardcoded one is wrong every January and nobody notices for months.
+{%- endcomment -%}
+<footer class="site-footer">
+  <div class="frame footer">
+    <div class="footer__brand">
+      <span class="brand">
+        <span class="mark" aria-hidden="true"></span>
+        <span class="mark-name">Clipa</span>
+      </span>
+      <p>A few seconds between you and your reflex. Built in Romania, stored on your phone.</p>
+      <p class="footer__copy">&copy; {{ 'now' | date: "%Y" }} Clipa</p>
+    </div>
+
+    <nav class="footer__col" aria-label="The app">
+      <p class="eyebrow">The app</p>
+      <a href="{{ '/#try' | relative_url }}">Try it</a>
+      <a href="{{ '/#how' | relative_url }}">How it works</a>
+      <a href="{{ '/#pricing' | relative_url }}">Pricing</a>
+      <a href="{{ '/#faq' | relative_url }}">Questions</a>
+    </nav>
+
+    <nav class="footer__col" aria-label="Legal">
+      <p class="eyebrow">Legal</p>
+      <a href="{{ '/privacy/' | relative_url }}">Privacy</a>
+      <a href="{{ '/terms/' | relative_url }}">Terms</a>
+      <a href="{{ '/delete-my-data/' | relative_url }}">Delete my data</a>
+      <a href="{{ '/support/' | relative_url }}">Support</a>
+    </nav>
+  </div>
+</footer>

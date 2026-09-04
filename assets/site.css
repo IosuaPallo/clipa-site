@@ -755,3 +755,41 @@ th { color: var(--text); font-weight: 600; }
 @media (prefers-reduced-motion: reduce) {
   .faq__chev, .js-faq .faq__panel { transition: none; }
 }
+
+
+/* ---------------------------------------------------------------------------
+   Section 9 - the closing card
+
+   The app's own dark pair, not an invented palette: --ink-050 on --text with
+   --green-400 for the action. The card should read as Clipa's dark mode.
+   --------------------------------------------------------------------------- */
+
+.cta {
+  background: var(--text); border-radius: 24px;
+  padding: var(--s80) 64px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: var(--s24);
+}
+@media (max-width: 720px) { .cta { padding: var(--s40) var(--s24); } }
+
+.cta__title { margin: 0; color: var(--ink-050); max-width: 18ch; }
+.cta__body { margin: 0; color: var(--ink-200); max-width: 52ch; font-size: 17px; line-height: 27px; }
+.cta__action { margin: 0; }
+.cta__btn { background: var(--green-400); color: var(--ink-950); }
+.cta__btn:hover { background: #9BCDB2; color: var(--ink-950); }
+.cta__note { margin: 0; color: var(--ink-300); font-size: 14px; max-width: 46ch; }
+
+/* ---------------------------------------------------------------------------
+   Footer - three columns on the landing page
+   --------------------------------------------------------------------------- */
+
+.footer { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--s40); }
+@media (max-width: 720px) { .footer { grid-template-columns: 1fr 1fr; } .footer__brand { grid-column: 1 / -1; } }
+
+.footer__brand .brand { display: inline-flex; align-items: center; gap: var(--s12); }
+.footer__brand p { margin: var(--s16) 0 0; max-width: 34ch; font-size: 14px; line-height: 21px; color: var(--text-3); }
+.footer__copy { margin-top: var(--s12) !important; }
+
+.footer__col { display: flex; flex-direction: column; gap: var(--s8); }
+.footer__col .eyebrow { margin: 0 0 var(--s4); }
+.footer__col a { font-size: 14px; color: var(--text-2); text-decoration: none; }
+.footer__col a:hover { color: var(--text); text-decoration: underline; }

@@ -19,3 +19,5 @@ layout: landing
 {% include pricing.html %}
 
 {% include faq.html %}
+
+{% include cta.html %}

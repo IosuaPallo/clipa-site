@@ -33,16 +33,7 @@
   {{ content }}
 </main>
 
-<footer class="site-footer frame">
-  <nav aria-label="Footer">
-    <a href="{{ '/' | relative_url }}">Home</a>
-    <a href="{{ '/privacy/' | relative_url }}">Privacy</a>
-    <a href="{{ '/terms/' | relative_url }}">Terms</a>
-    <a href="{{ '/delete-my-data/' | relative_url }}">Delete my data</a>
-    <a href="{{ '/support/' | relative_url }}">Support</a>
-  </nav>
-  {% if site.developer %}<p>{{ site.developer }}</p>{% endif %}
-</footer>
+{% include footer.html %}
 
 <script src="{{ '/assets/site.js' | relative_url }}" defer></script>
 </body>
