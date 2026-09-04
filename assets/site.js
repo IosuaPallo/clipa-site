@@ -406,9 +406,58 @@
      own, with correct keyboard and screen-reader behaviour. The class merely
      turns on the height transition. */
   function faq() {
-    if (document.querySelector('.faq__list')) {
-      document.documentElement.classList.add('js-faq');
-    }
+    var items = document.querySelectorAll('.faq__item');
+    if (!items.length) return;
+
+    document.documentElement.classList.add('js-faq');
+    Array.prototype.forEach.call(items, function (item) {
+      if (item.open) item.classList.add('is-open');
+    });
+
+    // Reduced motion keeps the native behaviour untouched: <details> already
+    // opens and closes correctly on its own, and here the height change is
+    // decoration rather than content. Nothing is lost by skipping it, unlike
+    // the demo's word reveal where the passage of time IS the point.
+    if (reduced) return;
+
+    Array.prototype.forEach.call(items, function (item) {
+      var summary = item.querySelector('summary');
+      var panel = item.querySelector('.faq__panel > div');
+      if (!summary || !panel) return;
+      var running = null;
+
+      summary.addEventListener('click', function (e) {
+        // Take the toggle over. The browser would flip `open` instantly, and
+        // an instant flip is the thing being replaced.
+        e.preventDefault();
+
+        var opening = !item.classList.contains('is-open');
+        item.classList.toggle('is-open', opening);
+
+        if (running) running.cancel();
+
+        // The element must be open to have a measurable height, and must STAY
+        // open for the whole of a closing animation - it is set back to closed
+        // in onfinish, not before.
+        item.open = true;
+        var full = panel.scrollHeight;
+
+        running = panel.animate(
+          [{ height: (opening ? 0 : full) + 'px' },
+           { height: (opening ? full : 0) + 'px' }],
+          { duration: 260, easing: 'cubic-bezier(.05,.7,.1,1)' }
+        );
+
+        running.onfinish = function () {
+          running = null;
+          item.open = opening;
+        };
+        // A cancelled run means a second click arrived mid-flight; the new
+        // animation owns the element from here, so this one must not also
+        // write `open` on its way out.
+        running.oncancel = function () {};
+      });
+    });
   }
 
   if (document.readyState === 'loading') {

@@ -877,15 +877,30 @@ th { color: var(--text); font-weight: 600; }
 .faq__chev { color: var(--text-3); flex: none; transition: transform var(--m-base) var(--e-standard); }
 .faq__item[open] .faq__chev { transform: rotate(180deg); }
 
-/* 0fr -> 1fr animates to auto height without guessing a max-height. */
-.faq__panel { display: grid; grid-template-rows: 1fr; }
+/* The panel is a plain block and stays one.
+
+   This was a 0fr -> 1fr grid transition, which is the standard trick for
+   animating to an unknown height - and it never ran. A native <details> does
+   not render its content at all while closed, so there is no start frame to
+   transition FROM; measured, the element jumped 67px to 159px with nothing in
+   between, and the panel still computed to 92px while shut. The CSS was
+   correct and inert.
+
+   site.js animates the height directly instead, and keeps the element open
+   until the closing animation has finished. Without the script <details> opens
+   and closes natively, instantly and correctly, which is the right unenhanced
+   behaviour. */
 .faq__panel > div { overflow: hidden; }
 .faq__panel p { margin: 0; padding: 0 var(--s20) var(--s20); font-size: 15px; line-height: 24px; }
-.js-faq .faq__panel { grid-template-rows: 0fr; transition: grid-template-rows var(--m-slow) var(--e-emph-decel); }
-.js-faq .faq__item[open] .faq__panel { grid-template-rows: 1fr; }
+
+/* While a panel is closing the element is still [open], so the chevron cannot
+   be driven from that or it would rotate a beat late. The script sets is-open
+   at the moment of the click, which is when the reader asked for it. */
+.js-faq .faq__item .faq__chev { transform: none; }
+.js-faq .faq__item.is-open .faq__chev { transform: rotate(180deg); }
 
 @media (prefers-reduced-motion: reduce) {
-  .faq__chev, .js-faq .faq__panel { transition: none; }
+  .faq__chev { transition: none; }
 }
 
 
