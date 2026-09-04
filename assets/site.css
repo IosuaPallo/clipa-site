@@ -400,3 +400,106 @@ th { color: var(--text); font-weight: 600; }
 @media (max-width: 339px) {
   .phone { transform: scale(.86); transform-origin: top center; margin-bottom: -88px; }
 }
+
+/* ---------------------------------------------------------------------------
+   Section 2 — the demo
+   --------------------------------------------------------------------------- */
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+.try { display: grid; grid-template-columns: 1fr 360px; gap: 72px; align-items: start; }
+.try__device { position: sticky; top: 104px; justify-self: center; }
+@media (max-width: 960px) {
+  .try { grid-template-columns: 1fr; gap: var(--s40); }
+  .try__device { position: static; }
+}
+
+.try__copy > h2 { margin-top: var(--s8); }
+.try .lede { margin-bottom: var(--s40); }
+
+.try__field { border: 0; padding: 0; margin: 0 0 var(--s32); }
+.try__legend { padding: 0; font-size: 17px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: var(--s12); }
+.try__num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: var(--r-pill);
+  background: var(--surface-variant); color: var(--text-2);
+  font-size: 13px; font-weight: 600;
+}
+.try__hint { margin: var(--s8) 0 var(--s16); font-size: 15px; color: var(--text-3); }
+
+/* The controls are real radios. Hidden visually, still focusable, still
+   operable with a keyboard and still meaningful with no JS at all. */
+.try__apps { display: flex; flex-wrap: wrap; gap: var(--s20); }
+.app { display: grid; justify-items: center; gap: var(--s8); cursor: pointer; }
+.app input, .sec input {
+  position: absolute; opacity: 0; width: 1px; height: 1px;
+}
+.app__tile {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: var(--r-m);
+  background: var(--brand); color: #fff;
+  font-size: 15px; font-weight: 600; letter-spacing: .02em;
+  border: 1.5px solid transparent;
+  transition: box-shadow var(--m-fast) var(--e-standard);
+}
+.app__name { font-size: 14px; color: var(--text-3); }
+.app input:checked ~ .app__tile { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+.app input:checked ~ .app__name { color: var(--text); font-weight: 600; }
+.app input:focus-visible ~ .app__tile { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.try__delay { margin: 0 0 var(--s12); font-family: var(--font-serif); font-size: 30px; color: var(--text); }
+.try__delay span { font-family: var(--font-sans); font-size: 15px; color: var(--text-3); }
+.try__delays { display: flex; flex-wrap: wrap; gap: var(--s8); }
+.sec { cursor: pointer; }
+.sec__dot {
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: var(--r-pill);
+  border: 1px solid var(--outline); font-size: 15px; color: var(--text-2);
+  transition: background var(--m-fast) var(--e-standard), color var(--m-fast) var(--e-standard);
+}
+.sec input:checked ~ .sec__dot { background: var(--accent); border-color: var(--accent); color: #fff; }
+.sec input:focus-visible ~ .sec__dot { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.try__run { margin: var(--s32) 0; }
+.try__run .btn { border: 0; cursor: pointer; font-family: inherit; }
+
+.try__table { margin-top: var(--s24); font-size: 15px; }
+.try__table th { font-weight: 400; color: var(--text-2); }
+.try__table td { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; }
+.try__hold th, .try__hold td { background: var(--accent-tint); }
+
+/* The abstract feed. Mimicking a real one is a trademark problem and a
+   distraction; this only has to read as "a screen you were about to scroll". */
+.feed { position: absolute; inset: 0; padding: 52px var(--s20) var(--s20); background: var(--surface); }
+.feed__title { margin: 0 0 var(--s16); font-size: 15px; font-weight: 600; color: var(--text-2); }
+.feed__block { height: 92px; border-radius: var(--r-s); background: var(--surface-variant); margin-bottom: var(--s12); }
+.feed__line { height: 10px; border-radius: 5px; background: var(--surface-variant); margin-bottom: var(--s8); }
+.feed__line--short { width: 60%; margin-bottom: var(--s16); }
+.feed[hidden] { display: none; }
+
+.phone__count { margin: var(--s16) 0 0; font-size: 13px; color: var(--text-3); }
+
+/* Running state. Words and buttons are visible by default so the phone reads
+   as a finished pause with no JS; the script adds .is-running to take over. */
+.phone .w { display: inline-block; }
+[data-demo-phone].is-running .w { opacity: 0; transform: translateY(4px); }
+[data-demo-phone].is-running .w.in {
+  opacity: 1; transform: none;
+  transition: opacity 180ms var(--e-decel), transform 180ms var(--e-decel);
+}
+[data-demo-phone].is-running .phone__count { opacity: 0; }
+[data-demo-phone].is-running [data-demo-actions] { opacity: 0; pointer-events: none; }
+[data-demo-phone].is-running.is-done [data-demo-actions],
+[data-demo-phone].is-running.is-done .phone__count {
+  opacity: 1;
+  transition: opacity var(--m-base) var(--e-emph-decel);
+}
+[data-demo-feed] { transition: opacity var(--m-exit) var(--e-emph-accel); }
+[data-demo-phone].is-running [data-demo-feed] { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-demo-phone].is-running .w { opacity: 1 !important; transform: none !important; }
+}
