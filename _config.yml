@@ -10,6 +10,17 @@ description: A few seconds between you and your reflex.
 developer: ""
 contact_email: "clipaapp.contact@gmail.com"
 
+
+# The ONLY place a price appears. The per-month figure is derived in Liquid,
+# never typed. The app hardcodes nothing - it reads the price from Google Play
+# and shows it in the buyer's own currency - so these are already a copy.
+#
+# UNVERIFIED: from the spec, not from a configured Play product. Check against
+# Play Console before launch; it is the only number here that can rot unseen.
+price_yearly: 49
+price_monthly: 14
+price_currency: "lei"
+
 permalink: pretty
 
 defaults:

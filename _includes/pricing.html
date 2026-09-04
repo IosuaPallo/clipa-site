@@ -1,0 +1,63 @@
+{%- comment -%}
+  Section 7.
+
+  THE PRICES LIVE IN _config.yml AND NOWHERE ELSE, and the per-month figure is
+  derived here rather than typed. The app never hardcodes a price at all -
+  PaywallScreen reads it from Google Play and formats it in the buyer's own
+  currency - so anything written here is already a copy. Typing "about 4" next
+  to "49" is how the two end up disagreeing after a price change.
+
+  The regional line is not a disclaimer for its own sake: without it a visitor
+  outside Romania reads a number they will never be charged, on the one topic
+  where looking careless costs the most.
+
+  The app's paywall rules apply here too: no countdown, no strikethrough,
+  nothing pre-ticked, no urgency.
+{%- endcomment -%}
+{%- assign per_month = site.price_yearly | divided_by: 12.0 | round -%}
+<section class="section" id="pricing">
+  <div class="frame">
+    <p class="eyebrow">Pricing</p>
+    <h2 class="section__title">Free for one app. Paid for the rest.</h2>
+    <p class="lede pricing__lede">
+      No trial that bills you quietly, no countdown, nothing pre-ticked. If one
+      app is your problem, the free version is the whole product.
+    </p>
+    <p class="pricing__regional">
+      Prices shown in Romanian {{ site.price_currency }}. Google Play charges in
+      your own currency and the app always shows you that price, not this one.
+    </p>
+
+    <div class="plans">
+      <div class="plan">
+        <p class="plan__name">Free</p>
+        <p class="plan__price">0</p>
+        <p class="plan__unit">{{ site.price_currency }}, always</p>
+        <ul class="plan__list">
+          <li>{% include icon.html name='check' %}One app, slowed down</li>
+          <li>{% include icon.html name='check' %}Your own reason on the pause</li>
+          <li>{% include icon.html name='check' %}A wait of 1 to 10 seconds</li>
+          <li>{% include icon.html name='check' %}Every stat, and the night palette</li>
+        </ul>
+      </div>
+
+      <div class="plan plan--full">
+        <p class="plan__tab">Everything</p>
+        <p class="plan__name">Clipa full</p>
+        <p class="plan__price">{{ site.price_yearly }}</p>
+        <p class="plan__unit">{{ site.price_currency }} a year — about {{ per_month }} a month</p>
+        <ul class="plan__list">
+          <li>{% include icon.html name='check' %}Every app, not just one</li>
+          <li>{% include icon.html name='check' %}Check-ins while you scroll</li>
+          <li>{% include icon.html name='check' %}As many of your own messages as you like</li>
+          <li>{% include icon.html name='check' %}A different wait for each app, up to 30 seconds</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="pricing__note">
+      Monthly is {{ site.price_monthly }} {{ site.price_currency }}. Cancelling
+      happens in Google Play, like every other subscription on your phone.
+    </p>
+  </div>
+</section>
