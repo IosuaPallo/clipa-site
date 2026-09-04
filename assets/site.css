@@ -62,7 +62,12 @@
   --surface-variant: #E3E7DE; /* sage200  */
   --text: #16201A;            /* inkBlack */
   --text-2: #4F5A52;          /* slate700 */
-  --text-3: #6E786F;          /* slate600 */
+  /* Was #6E786F, the app's slate600. All 24 uses of this are 13-15px text, and
+     at that size it measured 4.03:1 on --bg and 4.30:1 on --surface against the
+     4.5:1 AA asks for - so the whole tertiary layer failed, footer links
+     included. Three values darker clears it at 4.59 and 4.90 and is not a
+     visible change. The app carries the same token and the same problem. */
+  --text-3: #656F66;          /* slate600, darkened for AA */
   --accent: #2F5F4B;          /* green700 */
   --accent-tint: #DCEAE1;     /* green050 */
   --accent-deep: #16281F;     /* green900 — hover only, not an app token */
@@ -75,6 +80,7 @@
   --ink-950: #0C0F0D;
   --ink-900: #141814;
   --ink-700: #2A322B;
+  --ink-350: #7E8980;         /* AA-safe note on --text; see .cta__note */
   --ink-300: #6B766D;
   --ink-200: #9AA69C;
   --ink-050: #E8ECE6;
@@ -556,7 +562,10 @@ th { color: var(--text); font-weight: 600; }
 }
 @media (max-width: 860px) { .steps { grid-template-columns: 1fr; gap: var(--s32); } }
 .step { border-top: 1px solid var(--outline); padding-top: var(--s16); }
-.step__num { font-family: var(--font-serif); font-size: 15px; color: var(--outline-strong); }
+/* --outline-strong is a BORDER token and measured 3.15:1 as text here. The
+   step numbers are content - they are the only thing naming the order - so they
+   take the text token meant to recede rather than the one meant to draw a line. */
+.step__num { font-family: var(--font-serif); font-size: 15px; color: var(--text-3); }
 .step h3 { margin: var(--s12) 0 var(--s8); }
 .step p { margin: 0; font-size: 16px; line-height: 26px; }
 
@@ -809,7 +818,10 @@ th { color: var(--text); font-weight: 600; }
 .cta__action { margin: 0; }
 .cta__btn { background: var(--green-400); color: var(--ink-950); }
 .cta__btn:hover { background: #9BCDB2; color: var(--ink-950); }
-.cta__note { margin: 0; color: var(--ink-300); font-size: 14px; max-width: 46ch; }
+/* --ink-300 measured 3.53:1 on the card. --ink-200 clears it but is already the
+   body colour above, which would flatten the two into one; --ink-350 is the
+   first step that clears 4.5 (4.60) and stays clear of the body's 6.62. */
+.cta__note { margin: 0; color: var(--ink-350); font-size: 14px; max-width: 46ch; }
 
 /* ---------------------------------------------------------------------------
    Footer - three columns on the landing page
