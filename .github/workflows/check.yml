@@ -108,6 +108,15 @@ jobs:
               if not os.path.isfile(path):
                   bad.append('og:image points at %s, which the build did not produce' % path)
 
+          # A stylesheet change can be deployed, correct, and invisible: the
+          # asset URL does not change, so a browser holding the old file has
+          # nothing to re-fetch. That is not hypothetical - the hero padding fix
+          # shipped and the person who reported it still saw the old layout.
+          for asset in ('site.css', 'site.js'):
+              if ('%s?v=' % asset) not in page:
+                  bad.append('%s is linked without a cache-busting version, so a '
+                             'returning visitor keeps the old one' % asset)
+
           for f in ('favicon.svg', 'favicon.ico', 'apple-touch-icon.png'):
               if not os.path.isfile(os.path.join('_site', f)):
                   bad.append('%s is not in the build' % f)
