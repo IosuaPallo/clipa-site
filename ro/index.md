@@ -1,9 +1,10 @@
 ---
 title: Clipa
-description: A few seconds between you and your reflex. Clipa puts a short, deliberate pause between opening an app and using it.
+description: Câteva secunde între tine și reflex. Clipa pune o pauză scurtă și deliberată între momentul în care deschizi o aplicație și momentul în care o folosești.
 layout: landing
-lang: en
-alt_url: /ro/
+lang: ro
+permalink: /ro/
+alt_url: /
 ---
 
 {% include hero.html %}

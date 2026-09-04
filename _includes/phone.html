@@ -4,7 +4,10 @@
   app's 42% optical centre rather than true middle - measured, not guessed:
   true centre reads slightly low.
 {%- endcomment -%}
-<div class="phone" role="img" aria-label="The Clipa pause, showing the sentence “{{ include.prompt }}” with a Not now button and an Open {{ include.app }} button.">
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign t = site.data.i18n[lang] -%}
+{%- assign aria = t.phone.aria | replace: 'PROMPT', include.prompt | replace: 'APP', include.app -%}
+<div class="phone" role="img" aria-label="{{ aria }}">
   <div class="phone__screen">
     <div class="phone__status" aria-hidden="true">
       <span>{{ include.time }}</span>
@@ -16,8 +19,8 @@
     </div>
 
     <div class="phone__actions">
-      <span class="phone__btn phone__btn--primary">Not now</span>
-      <span class="phone__btn phone__btn--secondary">Open {{ include.app }}</span>
+      <span class="phone__btn phone__btn--primary">{{ t.phone.not_now }}</span>
+      <span class="phone__btn phone__btn--secondary">{{ t.phone.open }} {{ include.app }}</span>
     </div>
   </div>
 </div>

@@ -1,50 +1,40 @@
-{%- comment -%}
-  Section 3. The three steps, then the argument the product actually rests on:
-  why a sentence and not a countdown. That card is the core claim, so it gets
-  the space rather than a footnote.
-{%- endcomment -%}
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign t = site.data.i18n[lang] -%}
+
 <section class="section section--surface" id="how">
   <div class="frame">
-    <p class="eyebrow">How it works</p>
-    <h2 class="section__title">Three steps, then it disappears.</h2>
+    <p class="eyebrow">{{ t.how.eyebrow }}</p>
+    <h2 class="section__title">{{ t.how.title }}</h2>
 
     <ol class="steps">
+      {%- for s in t.how.steps -%}
       <li class="step">
-        <span class="step__num">01</span>
-        <h3>Pick your apps</h3>
-        <p>The ones you open without deciding to. Most people start with one and know exactly which.</p>
+        <span class="step__num">{{ s.n }}</span>
+        <h3>{{ s.h }}</h3>
+        <p>{{ s.p }}</p>
       </li>
-      <li class="step">
-        <span class="step__num">02</span>
-        <h3>Write your reason</h3>
-        <p>One line, in your own words. You will read it back at the exact moment it is relevant, which is the only moment it works.</p>
-      </li>
-      <li class="step">
-        <span class="step__num">03</span>
-        <h3>Open the app anyway, or don’t</h3>
-        <p>There is always a way through. A lock you resent is a lock you uninstall, so Clipa never becomes one.</p>
-      </li>
+      {%- endfor -%}
     </ol>
 
     <div class="why">
       <div class="why__arg">
-        <h3>Why a sentence, and not a countdown</h3>
-        <p>A spinning ring can be watched with unfocused eyes. You learn its shape in a day and then you are just waiting it out.</p>
-        <p>An unfinished sentence cannot be skimmed. Until the last word lands there is nothing to hold, so you read it — and reading your own reason is the whole mechanism.</p>
+        <h3>{{ t.how.why_title }}</h3>
+        <p>{{ t.how.why_p1 }}</p>
+        <p>{{ t.how.why_p2 }}</p>
       </div>
       <div class="why__compare">
         <div class="compare">
           <span class="compare__ring" aria-hidden="true"></span>
           <div>
-            <p class="compare__title">A ring</p>
-            <p class="compare__body">Learned in a day. Watchable without reading.</p>
+            <p class="compare__title">{{ t.how.ring_title }}</p>
+            <p class="compare__body">{{ t.how.ring_body }}</p>
           </div>
         </div>
         <div class="compare compare--chosen">
           <span class="compare__lines" aria-hidden="true"><i></i><i></i><i></i></span>
           <div>
-            <p class="compare__title">A sentence</p>
-            <p class="compare__body">Cannot be parsed until it is finished.</p>
+            <p class="compare__title">{{ t.how.sentence_title }}</p>
+            <p class="compare__body">{{ t.how.sentence_body }}</p>
           </div>
         </div>
       </div>

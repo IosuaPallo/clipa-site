@@ -5,17 +5,7 @@
 </head>
 <body>
 
-<header class="masthead frame">
-  <a class="brand" href="{{ '/' | relative_url }}">
-    <span class="mark" aria-hidden="true"></span>
-    <span class="mark-name">Clipa</span>
-  </a>
-  <nav aria-label="Site">
-    <a href="{{ '/privacy/' | relative_url }}">Privacy</a>
-    <a href="{{ '/terms/' | relative_url }}">Terms</a>
-    <a href="{{ '/support/' | relative_url }}">Support</a>
-  </nav>
-</header>
+{% include masthead.html %}
 
 <main class="frame">
   <div class="prose">

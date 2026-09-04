@@ -1,6 +1,8 @@
 ---
 title: Support
 description: Fixes for the two things that usually go wrong, and how to reach a person.
+lang: en
+alt_url: /ro/asistenta/
 ---
 
 # Support

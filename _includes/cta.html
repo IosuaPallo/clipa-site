@@ -1,38 +1,18 @@
-{%- comment -%}
-  Section 9.
+{%- assign lang = page.lang | default: 'en' -%}
+{%- assign t = site.data.i18n[lang] -%}
 
-  The design drew an email FORM. There is no form, because there is no backend
-  and this is not the product to wire a third-party list into: a page whose
-  argument is that nothing about you leaves your phone should not hand your
-  address to a service in order to say so.
-
-  So it is a mailto:. The honest consequence is that the promise gets stronger
-  rather than weaker - the design's small print said "one email, then the list
-  is deleted", and now there is no list at all to delete. That is a claim that
-  cannot rot, which the other version could.
-
-  Colours are the app's own dark pair rather than an invented palette, so the
-  card reads as Clipa's dark mode: --ink-050 on --text, with --green-400 for
-  the action.
-{%- endcomment -%}
 <section class="section" id="cta">
   <div class="frame">
     <div class="cta">
-      <h2 class="cta__title">One question, before the feed gets you.</h2>
-      <p class="cta__body">
-        Clipa is finishing up and heading to Google Play. Write to me and I will
-        tell you once, on the day it is out.
-      </p>
+      <h2 class="cta__title">{{ t.cta.title }}</h2>
+      <p class="cta__body">{{ t.cta.body }}</p>
       <p class="cta__action">
         <a class="btn cta__btn"
-           href="mailto:{{ site.contact_email }}?subject=Tell%20me%20when%20Clipa%20is%20out">
-          Tell me when it&rsquo;s out
+           href="mailto:{{ site.contact_email }}?subject={{ t.cta.subject | url_encode }}">
+          {{ t.cta.button }}
         </a>
       </p>
-      <p class="cta__note">
-        No list, no newsletter, no service in the middle. It arrives in an inbox
-        and gets one reply.
-      </p>
+      <p class="cta__note">{{ t.cta.note }}</p>
     </div>
   </div>
 </section>

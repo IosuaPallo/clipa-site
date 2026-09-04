@@ -10,17 +10,7 @@
   bands, so unlike the legal pages it must NOT be poured into a fixed measure -
   each section owns its own background and sets its own width.
 -->
-<header class="masthead frame">
-  <a class="brand" href="{{ '/' | relative_url }}">
-    <span class="mark" aria-hidden="true"></span>
-    <span class="mark-name">Clipa</span>
-  </a>
-  <nav aria-label="Site">
-    <a href="{{ '/privacy/' | relative_url }}">Privacy</a>
-    <a href="{{ '/terms/' | relative_url }}">Terms</a>
-    <a href="{{ '/support/' | relative_url }}">Support</a>
-  </nav>
-</header>
+{% include masthead.html %}
 
 <main>
   {{ content }}
