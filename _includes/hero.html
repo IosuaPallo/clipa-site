@@ -13,10 +13,15 @@
     <p class="hero__chip" data-reveal="chip">No account · nothing leaves your phone</p>
 
     <h1 class="hero__title" data-reveal="title">
-      {%- assign words = "A,few,seconds,between,you,and,your,reflex." | split: "," -%}
-      {%- for w in words -%}
-        <span class="w">{{ w }}</span>{% unless forloop.last %} {% endunless %}
-      {%- endfor -%}
+            {%- assign words = "A,few,seconds,between,you,and,your,reflex." | split: "," -%}
+      {%- comment -%}
+        On ONE line, and with no whitespace-trimming tags around the space.
+        {%- endfor -%} strips the whitespace before it, which silently ate the
+        separator and rendered the headline as "Afewseconds betweenyouand".
+        Each word is inline-block, so the gap has to be a real text node - it
+        is also the only thing the line can break on.
+      {%- endcomment -%}
+      {% for w in words %}<span class="w">{{ w }}</span>{% unless forloop.last %} {% endunless %}{% endfor %}
     </h1>
 
     <p class="lede" data-reveal="rest">

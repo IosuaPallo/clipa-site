@@ -386,6 +386,17 @@ th { color: var(--text); font-weight: 600; }
 .phone__btn--primary { background: var(--accent); color: #fff; }
 .phone__btn--secondary { border: 1px solid var(--outline-strong); color: var(--text); }
 
-@media (max-width: 380px) {
-  .phone { width: 100%; max-width: 300px; height: auto; aspect-ratio: 300 / 628; }
+/* The phone keeps its fixed 300x628 all the way down. 300 + 2x20 of frame
+   padding fits a 340px viewport, and every phone in use is wider than that.
+
+   It must NOT be width:100%: .hero__device is justify-self:center, so it is
+   shrink-to-fit, and a percentage width inside it resolves against its own
+   content. That collapsed the phone to min-content and pushed the prompt
+   through the buttons - which only showed up at 375px, not in any preview.
+
+   Below 340px, scale the whole thing rather than reflowing it: the internal
+   proportions are the design, and the negative margin reclaims the space the
+   transform leaves behind. */
+@media (max-width: 339px) {
+  .phone { transform: scale(.86); transform-origin: top center; margin-bottom: -88px; }
 }
