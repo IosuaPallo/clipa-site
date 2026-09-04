@@ -10,6 +10,12 @@ layout: landing
 
 {% include how.html %}
 
+{% include night.html %}
+
 {% include nots.html %}
 
+{% include changed.html %}
+
 {% include pricing.html %}
+
+{% include faq.html %}

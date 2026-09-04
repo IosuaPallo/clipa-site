@@ -1,0 +1,45 @@
+{%- comment -%}
+  Section 8.
+
+  <details>/<summary> rather than a scripted accordion, so it opens and closes
+  with no JavaScript at all and arrives with keyboard behaviour and
+  screen-reader semantics already correct. The script only smooths the open,
+  using grid-template-rows 0fr -> 1fr - which animates to auto height without
+  the max-height guessing game.
+{%- endcomment -%}
+<section class="section section--surface" id="faq">
+  <div class="frame faq">
+    <div class="faq__head">
+      <p class="eyebrow">Questions</p>
+      <h2 class="section__title">The ones worth asking.</h2>
+      <p>If something is missing, <a href="mailto:{{ site.contact_email }}">write in</a>. A person reads it.</p>
+    </div>
+
+    <div class="faq__list">
+        <details class="faq__item" open>
+          <summary class="faq__q">Does it actually work, or is it another app I will delete? <svg class="faq__chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq__panel"><div><p>It works while the pause still makes you read. That is why the sentence is your own words and why the prompts rotate — a fixed screen becomes wallpaper in a week. Clipa is a few seconds of friction placed exactly where the reflex lives; it is not therapy and it does not pretend to be.</p></div></div>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">Can I get past it? <svg class="faq__chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq__panel"><div><p>Always, on every pause, with one tap. That is deliberate. An app you cannot get out of is an app you uninstall in a bad moment, and then it helps you never again.</p></div></div>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">What can Clipa see? <svg class="faq__chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq__panel"><div><p>Which app came to the foreground, and for how long. That is the whole list. It cannot see inside an app — not your messages, not what you scrolled, not who you looked at — and it has nowhere to send anything even if it could.</p></div></div>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">Will it drain my battery? <svg class="faq__chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq__panel"><div><p>It stops looking entirely while your screen is off, which is most of the day, and it holds no wake locks. The target is under one percent of a day.</p></div></div>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">Why does it need permission to draw over other apps? <svg class="faq__chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq__panel"><div><p>Because that is literally how the pause appears on top of the app you just opened. Android treats it as a special permission and asks you plainly, which is right. Clipa draws its own screen and never reads what is underneath.</p></div></div>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">Which phones does it run on? <svg class="faq__chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq__panel"><div><p>Android 11 and up. Some phones — Xiaomi and Samsung especially — kill background apps aggressively, so Clipa checks whether it is still running and tells you how to fix it on your specific phone rather than failing silently.</p></div></div>
+        </details>
+    </div>
+  </div>
+</section>

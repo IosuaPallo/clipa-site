@@ -1,0 +1,42 @@
+{%- comment -%}
+  Section 6.
+
+  Bars are at FULL HEIGHT in the CSS; the script sets them to zero and grows
+  them when the card is 35% visible. Without JS the chart is simply a chart -
+  never an empty box waiting for something that will not arrive.
+
+  Heading first in the DOM for screen readers, card second; `order` puts the
+  card on the left visually. The two orders disagree on purpose.
+
+  Highest bar full --accent, the rest 55% - the app's own ChartAlpha, so the
+  chart on the marketing page and the chart in Stats read as the same object.
+{%- endcomment -%}
+<section class="section section--surface" id="changed">
+  <div class="frame changed">
+    <div class="changed__copy">
+      <p class="eyebrow">What changed</p>
+      <h2 class="section__title">It counts the times you walked away, not the hours you lost.</h2>
+      <p>Most screen-time apps hand you a number designed to make you feel bad, then leave you with it. That works for about a week.</p>
+      <p>Clipa’s headline number is the one that went the way you wanted: the opens you closed. Time per app is there if you want it, sitting quietly next to the count, never added up into a verdict.</p>
+    </div>
+
+    <div class="changed__card">
+      <p class="eyebrow">This week</p>
+      <p class="changed__figure">34</p>
+      <p class="changed__label">times you closed it</p>
+
+      <div class="chart" data-chart aria-hidden="true">
+        {%- assign bars = "38,62,48,78,55,100,66" | split: "," -%}
+        {%- for v in bars -%}
+          <span class="chart__bar{% if v == "100" %} chart__bar--peak{% endif %}" style="--h: {{ v }}%"></span>
+        {%- endfor -%}
+      </div>
+      <p class="chart__days"><span>Mon</span><span>Thu</span><span>Sun</span></p>
+
+      <div class="changed__note">
+        <p class="changed__note-title">Nothing here is a score</p>
+        <p class="changed__note-body">No streaks to break, no grade, no total that looks like a failure.</p>
+      </div>
+    </div>
+  </div>
+</section>

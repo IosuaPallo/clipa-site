@@ -613,3 +613,145 @@ th { color: var(--text); font-weight: 600; }
 .plan__list .icon { color: var(--accent); margin-top: 2px; }
 
 .pricing__note { margin: var(--s24) 0 0; max-width: 60ch; font-size: 14px; color: var(--text-3); }
+
+
+/* ---------------------------------------------------------------------------
+   Section 4 - the night band
+
+   THE DEFAULT IS NIGHT. .is-light is added by the script before the observer
+   runs, and removed when the band is 35% visible. Same inversion as the hero:
+   with no JS the band is already dark, which is the state that makes the point.
+
+   700ms, slower than any duration in the app. This stands in for a change of
+   hour, not a UI response, and everything moves together so it reads as one
+   event rather than a dozen.
+   --------------------------------------------------------------------------- */
+
+.night { background: var(--night-bg); color: var(--night-text); }
+.night, .night h2, .night .eyebrow, .night p,
+.night .phone, .night .phone__screen, .night .phone__status,
+.night .phone__status-icons, .night .phone__sentence,
+.night .phone__btn--primary, .night .phone__btn--secondary,
+.night .night__pills li {
+  transition: background-color 700ms var(--e-standard),
+              color 700ms var(--e-standard),
+              border-color 700ms var(--e-standard);
+}
+.night h2 { color: var(--night-text); }
+.night .eyebrow { color: var(--night-accent); }
+.night p { color: var(--night-dim); }
+.night .phone { background: var(--night-outline-strong); }
+.night .phone__screen { background: var(--night-bg); }
+.night .phone__status { color: var(--night-dim); }
+.night .phone__status-icons { background: var(--night-outline); }
+.night .phone__sentence { color: var(--night-text); }
+.night .phone__btn--primary { background: var(--night-accent); color: var(--night-bg); }
+.night .phone__btn--secondary { border-color: var(--night-outline-strong); color: var(--night-text); }
+
+.night.is-light { background: var(--bg); color: var(--text); }
+.night.is-light h2 { color: var(--text); }
+.night.is-light .eyebrow { color: var(--text-3); }
+.night.is-light p { color: var(--text-2); }
+.night.is-light .phone { background: var(--text); }
+.night.is-light .phone__screen { background: var(--bg); }
+.night.is-light .phone__status { color: var(--text); }
+.night.is-light .phone__status-icons { background: var(--outline); }
+.night.is-light .phone__sentence { color: var(--text); }
+.night.is-light .phone__btn--primary { background: var(--accent); color: #fff; }
+.night.is-light .phone__btn--secondary { border-color: var(--outline-strong); color: var(--text); }
+
+.night__grid { display: grid; grid-template-columns: 1fr 340px; gap: 72px; align-items: center; }
+@media (max-width: 960px) {
+  .night__grid { grid-template-columns: 1fr; gap: var(--s40); }
+  .night__device { justify-self: center; }
+}
+
+.night__pills { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s12); padding: 0; margin: var(--s32) 0 0; }
+.night__pills li {
+  padding: var(--s8) var(--s16); border-radius: var(--r-pill);
+  border: 1px solid var(--night-outline-strong); color: var(--night-dim); font-size: 14px;
+}
+.night.is-light .night__pills li { border-color: var(--outline); color: var(--text-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .night, .night *, .night.is-light, .night.is-light * { transition: none !important; }
+}
+
+/* ---------------------------------------------------------------------------
+   Section 6 - what changed
+   --------------------------------------------------------------------------- */
+
+.changed { display: grid; grid-template-columns: 340px 1fr; gap: 72px; align-items: center; }
+/* Heading first in the DOM for screen readers; card first visually. The two
+   orders disagree on purpose. */
+.changed__copy { order: 2; }
+.changed__card { order: 1; }
+@media (max-width: 900px) {
+  .changed { grid-template-columns: 1fr; gap: var(--s40); }
+  .changed__copy { order: 1; }
+  .changed__card { order: 2; }
+}
+
+.changed__card { background: var(--bg); border: 1px solid var(--outline); border-radius: var(--r-l); padding: var(--s32); }
+.changed__figure { margin: var(--s8) 0 0; font-family: var(--font-serif); font-size: 54px; line-height: 1; color: var(--text); }
+.changed__label { margin: var(--s4) 0 var(--s32); font-size: 15px; color: var(--text-3); }
+
+.chart { display: flex; align-items: flex-end; gap: var(--s8); height: 96px; }
+.chart__bar {
+  flex: 1; border-radius: 3px;
+  background: #2F5F4B8C;              /* ChartAlpha - the app's own 55% */
+  height: var(--h);
+  transition: height 300ms var(--e-emph-decel);
+}
+.chart__bar--peak { background: var(--accent); }
+/* Set by the script before the observer fires. Without JS the bars are simply
+   drawn at their height - never an empty box waiting for something that will
+   not arrive. */
+.chart.is-pending .chart__bar { height: 0; }
+
+.chart__days { display: flex; justify-content: space-between; margin: var(--s8) 0 var(--s24); font-size: 13px; color: var(--text-3); }
+
+.changed__note { border-top: 1px solid var(--outline); padding-top: var(--s16); }
+.changed__note-title { margin: 0; font-size: 15px; font-weight: 600; color: var(--text); }
+.changed__note-body { margin: var(--s4) 0 0; font-size: 14px; line-height: 21px; color: var(--text-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .chart.is-pending .chart__bar { height: var(--h); }
+  .chart__bar { transition: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Section 8 - FAQ
+   --------------------------------------------------------------------------- */
+
+.faq { display: grid; grid-template-columns: 340px 1fr; gap: 72px; align-items: start; }
+.faq__head { position: sticky; top: 104px; }
+@media (max-width: 900px) {
+  .faq { grid-template-columns: 1fr; gap: var(--s32); }
+  .faq__head { position: static; }
+}
+
+.faq__list { border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--bg); }
+.faq__item { border-bottom: 1px solid var(--outline); }
+.faq__item:last-child { border-bottom: 0; }
+
+.faq__q {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s16);
+  padding: var(--s20); cursor: pointer; list-style: none;
+  font-size: 16px; font-weight: 600; color: var(--text);
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__q:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.faq__chev { color: var(--text-3); flex: none; transition: transform var(--m-base) var(--e-standard); }
+.faq__item[open] .faq__chev { transform: rotate(180deg); }
+
+/* 0fr -> 1fr animates to auto height without guessing a max-height. */
+.faq__panel { display: grid; grid-template-rows: 1fr; }
+.faq__panel > div { overflow: hidden; }
+.faq__panel p { margin: 0; padding: 0 var(--s20) var(--s20); font-size: 15px; line-height: 24px; }
+.js-faq .faq__panel { grid-template-rows: 0fr; transition: grid-template-rows var(--m-slow) var(--e-emph-decel); }
+.js-faq .faq__item[open] .faq__panel { grid-template-rows: 1fr; }
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__chev, .js-faq .faq__panel { transition: none; }
+}
