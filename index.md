@@ -6,7 +6,9 @@ layout: landing
 
 {% include hero.html %}
 
-<div class="frame shots" id="try">
+{% include try.html %}
+
+<div class="frame shots">
   <figure>
     <img src="{{ '/img/pause.png' | relative_url }}"
          alt="The Clipa pause screen, showing the reason a person wrote for themselves, with Not now and Open YouTube buttons.">

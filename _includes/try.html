@@ -1,0 +1,108 @@
+{%- comment -%}
+  Section 2 — the demo, and the section that earns the visit.
+
+  It runs the APP'S OWN algorithm, constants and all, rather than an
+  approximation: same clamp, same 250ms first word, same rule that the buttons
+  arrive at max(n, sentenceEnd). At the default five seconds that produces a
+  250ms hold - a finished sentence with nothing yet to press - which is the
+  exact case that made the app's spec contradict itself. Showing it plainly is
+  more honest than hiding it, and it is the most interesting thing about the
+  product's timing.
+
+  Everything here is inert without JS: the controls are real radio inputs, the
+  table renders its default values server-side, and the phone shows the pause
+  already finished. No blank boxes waiting for a script.
+{%- endcomment -%}
+
+<section class="section section--try" id="try">
+  <div class="frame try">
+    <div class="try__copy">
+      <p class="eyebrow">Try it</p>
+      <h2>Tap an app. Feel the pause.</h2>
+      <p class="lede">
+        This is the real thing: the same word-by-word reveal, the same clamped
+        timing, the same buttons arriving only when the wait is over. Set the
+        delay to whatever you would actually live with.
+      </p>
+
+      <fieldset class="try__field">
+        <legend class="try__legend"><span class="try__num">1</span> Choose the app you lose time in</legend>
+        <p class="try__hint">In the app this is a list of what is really on your phone. Here, three of the usual suspects.</p>
+        <div class="try__apps">
+          {% assign apps = "Instagram,ig,#C13584|TikTok,tt,#0E0E0E|YouTube,yt,#B02020" | split: "|" %}
+          {% for a in apps %}
+            {% assign bits = a | split: "," %}
+            <label class="app">
+              <input type="radio" name="demo-app" value="{{ bits[0] }}"
+                     {% if bits[0] == "YouTube" %}checked{% endif %}>
+              <span class="app__tile" style="--brand: {{ bits[2] }}">{{ bits[1] }}</span>
+              <span class="app__name">{{ bits[0] }}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <fieldset class="try__field">
+        <legend class="try__legend"><span class="try__num">2</span> How long should it wait?</legend>
+        <p class="try__hint">The app’s own range. Five seconds is the default.</p>
+        <p class="try__delay"><strong data-delay-value>5</strong> <span>s</span></p>
+        <div class="try__delays">
+          {% for n in (1..10) %}
+            <label class="sec">
+              <input type="radio" name="demo-delay" value="{{ n }}" {% if n == 5 %}checked{% endif %}>
+              <span class="sec__dot">{{ n }}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <p class="try__run">
+        <button class="btn btn--primary" type="button" data-demo-run>Open <span data-app-name>YouTube</span></button>
+      </p>
+
+      <table class="try__table">
+        <caption class="visually-hidden">The timing this delay produces</caption>
+        <tbody>
+          <tr><th scope="row">words in the sentence</th><td data-t="words">6</td></tr>
+          <tr><th scope="row">interval per word</th><td data-t="step">900 ms</td></tr>
+          <tr><th scope="row">the sentence finishes</th><td data-t="end">4.75 s</td></tr>
+          <tr><th scope="row">buttons arrive</th><td data-t="buttons">5.00 s</td></tr>
+          <tr class="try__hold"><th scope="row">the hold — a finished sentence, nothing to press</th><td data-t="hold">250 ms</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="try__device">
+      <div class="phone" data-demo-phone>
+        <div class="phone__screen">
+          <div class="phone__status" aria-hidden="true">
+            <span>21:47</span><span class="phone__status-icons"></span>
+          </div>
+
+          {%- comment -%}
+            A deliberately abstract feed. Mimicking a real one is both a
+            trademark problem and a distraction from the only thing this
+            section is about.
+          {%- endcomment -%}
+          <div class="feed" data-demo-feed aria-hidden="true" hidden>
+            <p class="feed__title" data-app-name>YouTube</p>
+            <div class="feed__block"></div>
+            <div class="feed__line"></div>
+            <div class="feed__line feed__line--short"></div>
+            <div class="feed__block"></div>
+          </div>
+
+          <div class="phone__prompt" data-demo-prompt>
+            <p class="phone__sentence" data-demo-sentence>so I have my evenings back</p>
+            <p class="phone__count">7 times today</p>
+          </div>
+
+          <div class="phone__actions" data-demo-actions>
+            <span class="phone__btn phone__btn--primary">Not now</span>
+            <span class="phone__btn phone__btn--secondary">Open <span data-app-name>YouTube</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
