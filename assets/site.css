@@ -899,9 +899,9 @@ th { color: var(--text); font-weight: 600; }
 .js-faq .faq__item .faq__chev { transform: none; }
 .js-faq .faq__item.is-open .faq__chev { transform: rotate(180deg); }
 
-@media (prefers-reduced-motion: reduce) {
-  .faq__chev { transition: none; }
-}
+/* The chevron keeps its transition under reduced motion, because the panel it
+   points at now animates too - see faq() in site.js. A still arrow beside a
+   moving panel reads as a bug rather than as restraint. */
 
 
 /* ---------------------------------------------------------------------------

@@ -405,57 +405,94 @@
   /* Progressive enhancement only: <details> already opens and closes on its
      own, with correct keyboard and screen-reader behaviour. The class merely
      turns on the height transition. */
+  /* -------------------------------------------------------------------------
+     Section 8 — the FAQ.
+
+     ONE OPEN AT A TIME. Opening an answer closes whichever was open, with the
+     same animation, so the section keeps a stable height instead of growing a
+     stack that pushes the page around under a sticky heading. The cost is real
+     and worth naming: a reader comparing two answers loses one. For six short
+     answers beside a sticky heading that trade is worth it; for a long
+     reference list it would not be.
+
+     THIS DOES NOT CHECK `reduced`, and that is a deliberate reversal. The
+     first version skipped the animation entirely for prefers-reduced-motion,
+     on the reasoning that a height change is decoration - which is defensible
+     and left the person who asked for the animation unable to see it, because
+     their machine has the setting on. Same cause as the smooth scroll. The
+     concession is duration: 240ms on a small panel, which is the mild end of
+     what the preference exists to prevent.
+
+     Without this file <details> still opens and closes natively, instantly and
+     correctly, and every answer can be open at once. Exclusivity is an
+     enhancement, not a requirement.
+     ------------------------------------------------------------------------- */
   function faq() {
-    var items = document.querySelectorAll('.faq__item');
+    var items = Array.prototype.slice.call(document.querySelectorAll('.faq__item'));
     if (!items.length) return;
 
     document.documentElement.classList.add('js-faq');
-    Array.prototype.forEach.call(items, function (item) {
+    items.forEach(function (item) {
       if (item.open) item.classList.add('is-open');
     });
 
-    // Reduced motion keeps the native behaviour untouched: <details> already
-    // opens and closes correctly on its own, and here the height change is
-    // decoration rather than content. Nothing is lost by skipping it, unlike
-    // the demo's word reveal where the passage of time IS the point.
-    if (reduced) return;
+    var DURATION = 240;
 
-    Array.prototype.forEach.call(items, function (item) {
-      var summary = item.querySelector('summary');
+    function animateTo(item, opening) {
       var panel = item.querySelector('.faq__panel > div');
-      if (!summary || !panel) return;
-      var running = null;
+      if (!panel) return;
+
+      item.classList.toggle('is-open', opening);
+
+      // Measure BEFORE cancelling: a running animation is holding the height,
+      // and cancelling it snaps the panel back to its natural size. Starting
+      // an interrupted toggle from where it actually is, rather than from the
+      // end it never reached, is the difference between a reversal and a jump.
+      var from = item.open ? panel.getBoundingClientRect().height : 0;
+      if (item._anim) item._anim.cancel();
+
+      // Must be open to have a measurable height, and must STAY open for the
+      // whole of a close - open is set back in onfinish, never before.
+      item.open = true;
+      var to = opening ? panel.scrollHeight : 0;
+
+      if (Math.round(from) === Math.round(to)) {
+        item.open = opening;
+        return;
+      }
+
+      var anim = panel.animate(
+        [{ height: from + 'px' }, { height: to + 'px' }],
+        { duration: DURATION, easing: 'cubic-bezier(.05,.7,.1,1)' }
+      );
+      item._anim = anim;
+      anim.onfinish = function () {
+        item._anim = null;
+        item.open = opening;
+      };
+      // Cancelled means a newer toggle owns this element now; that one will
+      // set `open`, and this handler must not fight it.
+      anim.oncancel = function () {};
+    }
+
+    items.forEach(function (item) {
+      var summary = item.querySelector('summary');
+      if (!summary) return;
 
       summary.addEventListener('click', function (e) {
-        // Take the toggle over. The browser would flip `open` instantly, and
-        // an instant flip is the thing being replaced.
+        // Take the toggle over; the browser would flip `open` instantly, and
+        // the instant flip is the thing being replaced.
         e.preventDefault();
 
         var opening = !item.classList.contains('is-open');
-        item.classList.toggle('is-open', opening);
-
-        if (running) running.cancel();
-
-        // The element must be open to have a measurable height, and must STAY
-        // open for the whole of a closing animation - it is set back to closed
-        // in onfinish, not before.
-        item.open = true;
-        var full = panel.scrollHeight;
-
-        running = panel.animate(
-          [{ height: (opening ? 0 : full) + 'px' },
-           { height: (opening ? full : 0) + 'px' }],
-          { duration: 260, easing: 'cubic-bezier(.05,.7,.1,1)' }
-        );
-
-        running.onfinish = function () {
-          running = null;
-          item.open = opening;
-        };
-        // A cancelled run means a second click arrived mid-flight; the new
-        // animation owns the element from here, so this one must not also
-        // write `open` on its way out.
-        running.oncancel = function () {};
+        if (opening) {
+          items.forEach(function (other) {
+            if (other !== item && other.classList.contains('is-open')) {
+              animateTo(other, false);
+            }
+          });
+        }
+        animateTo(item, opening);
       });
     });
   }
