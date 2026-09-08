@@ -6,12 +6,54 @@
     <div class="cta">
       <h2 class="cta__title">{{ t.cta.title }}</h2>
       <p class="cta__body">{{ t.cta.body }}</p>
+
+      {%- comment -%}
+        A form OR a mailto, never a form pointing at nothing.
+
+        mailto: was the honest choice while there was no endpoint, and it is a
+        poor one on a phone: it opens a mail client if one is configured and
+        does nothing at all if none is. Even when it works it asks somebody to
+        compose an email, which most of the people who wanted to hear about this
+        will not do.
+
+        So when form_endpoint is set the card posts a single field, and when it
+        is not it degrades to exactly what it was before. Either way the button
+        does something.
+
+        Without JavaScript the form posts natively and the endpoint shows its
+        own confirmation page. With it, the answer arrives in place.
+      {%- endcomment -%}
+      {%- if site.form_endpoint and site.form_endpoint != '' -%}
+      <form class="cta__form" action="{{ site.form_endpoint }}" method="post"
+            data-cta-form
+            data-sending="{{ t.cta.sending }}"
+            data-success="{{ t.cta.success }}"
+            data-error="{{ t.cta.error | replace: 'CONTACT', site.contact_email }}">
+        <label class="visually-hidden" for="cta-email">{{ t.cta.email_label }}</label>
+        <input class="cta__input" id="cta-email" type="email" name="email"
+               placeholder="{{ t.cta.email_placeholder }}"
+               autocomplete="email" required>
+
+        {%- comment -%}
+          The honeypot. Bots fill every field they find and a person never sees
+          this one. Cheaper than a captcha, and it costs the reader nothing -
+          which matters on a page that refuses to make anyone prove anything.
+        {%- endcomment -%}
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+               aria-hidden="true" class="visually-hidden">
+
+        <button class="btn cta__btn" type="submit">{{ t.cta.button }}</button>
+      </form>
+      <p class="cta__status" role="status" data-cta-status hidden></p>
+      {%- else -%}
       <p class="cta__action">
         <a class="btn cta__btn"
            href="mailto:{{ site.contact_email }}?subject={{ t.cta.subject | url_encode }}">
           {{ t.cta.button }}
         </a>
       </p>
+      {%- endif -%}
+
       <p class="cta__note">{{ t.cta.note }}</p>
     </div>
   </div>

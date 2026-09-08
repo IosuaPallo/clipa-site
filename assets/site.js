@@ -406,6 +406,69 @@
      own, with correct keyboard and screen-reader behaviour. The class merely
      turns on the height transition. */
   /* -------------------------------------------------------------------------
+     Section 9 — the launch-notice form.
+
+     Progressive enhancement over a form that already works: without this the
+     browser posts it and the endpoint shows its own confirmation page, which
+     is correct if unlovely. This keeps the reader on the page.
+
+     The endpoint is whatever _config.yml names. Nothing here knows or cares
+     which service it is.
+     ------------------------------------------------------------------------- */
+  function cta() {
+    var form = document.querySelector('[data-cta-form]');
+    if (!form || !window.fetch) return;
+
+    var status = document.querySelector('[data-cta-status]');
+    var button = form.querySelector('button[type="submit"]');
+    var label = button ? button.textContent : '';
+    var busy = false;
+
+    function say(text, state) {
+      if (!status) return;
+      status.textContent = text;
+      if (state) status.setAttribute('data-state', state);
+      else status.removeAttribute('data-state');
+      status.hidden = !text;
+    }
+
+    form.addEventListener('submit', function (e) {
+      // Let the browser do its own validation first: an empty or malformed
+      // address should get the native bubble, not a POST and a server error.
+      if (!form.checkValidity()) return;
+      e.preventDefault();
+      if (busy) return;
+      busy = true;
+
+      if (button) { button.disabled = true; button.textContent = form.dataset.sending; }
+      say('');
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      }).then(function (res) {
+        if (!res.ok) throw new Error(res.status);
+        // The field goes away on success. Leaving a filled input under a
+        // "done" message invites a second submission of the same address.
+        form.hidden = true;
+        say(form.dataset.success);
+        // Reset even though the form is now hidden. Leaving `busy` true here
+        // works only for as long as success keeps hiding the form, which is a
+        // decision somebody could reasonably change later - and then the next
+        // submit would silently do nothing.
+        busy = false;
+      }).catch(function () {
+        // The fallback names the address, so a failure still leaves the reader
+        // with a way to reach a person rather than a dead end.
+        say(form.dataset.error, 'error');
+        if (button) { button.disabled = false; button.textContent = label; }
+        busy = false;
+      });
+    });
+  }
+
+  /* -------------------------------------------------------------------------
      Section 8 — the FAQ.
 
      ONE OPEN AT A TIME. Opening an answer closes whichever was open, with the
@@ -498,7 +561,7 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { hero(); demo(); night(); chart(); faq(); anchors(); });
+    document.addEventListener('DOMContentLoaded', function () { hero(); demo(); night(); chart(); faq(); anchors(); cta(); });
   } else {
     hero();
     demo();
@@ -506,5 +569,6 @@
     chart();
     faq();
     anchors();
+    cta();
   }
 })();

@@ -117,6 +117,20 @@ jobs:
                   bad.append('%s is linked without a cache-busting version, so a '
                              'returning visitor keeps the old one' % asset)
 
+          # The launch-notice form. It renders only when form_endpoint is set,
+          # so its absence is fine - a broken action is not. A form posting to
+          # a relative or http URL loses every submission silently, which is
+          # the same failure the mailto had and the reason it was replaced.
+          form = re.search(r'<form[^>]*data-cta-form[^>]*action="([^"]*)"', page)
+          if form and not form.group(1).startswith('https://'):
+              bad.append('the CTA form posts to %r, which is not an absolute '
+                         'https endpoint' % form.group(1))
+
+          # A store asset, referenced by nothing on the page, so nothing else
+          # would notice it going missing.
+          if not os.path.isfile('_site/img/icon-512.png'):
+              bad.append('img/icon-512.png is missing from the build')
+
           for f in ('favicon.svg', 'favicon.ico', 'apple-touch-icon.png'):
               if not os.path.isfile(os.path.join('_site', f)):
                   bad.append('%s is not in the build' % f)

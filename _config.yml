@@ -26,3 +26,12 @@ permalink: pretty
 defaults:
   - scope: { path: "" }
     values: { layout: "default" }
+
+# Where the launch-notice form posts. EMPTY IS A VALID STATE: with no endpoint
+# the closing card falls back to the mailto: link it used to be - worse for
+# conversion, never broken. A form pointing at nothing is worse than both, so
+# cta.html renders one or the other and never a half-configured form.
+#
+# Formspree, Buttondown, anything that accepts a POST. Paste the full https://
+# endpoint and the form replaces the link on the next build.
+form_endpoint: ""
