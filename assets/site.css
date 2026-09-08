@@ -174,8 +174,17 @@ code {
 .frame { max-width: 1060px; margin: 0 auto; padding: 0 var(--s32); }
 @media (max-width: 640px) { .frame { padding: 0 var(--s20); } }
 
+/* min-height, not height.
+
+   This was `height: 64px`, which is fine until the nav wraps - and it wraps as
+   soon as a fourth item is added to three long ones, which the language toggle
+   did. The nav then measured 70px inside a 64px box and, being centred,
+   overflowed by 3px at the top and 2px at the bottom: the toggle's baseline sat
+   BELOW the header's own border. A fixed height on a box whose contents can
+   reflow is a promise the content did not agree to. */
 .masthead {
-  height: 64px; display: flex; align-items: center; gap: var(--s24);
+  min-height: 64px; display: flex; align-items: center; gap: var(--s24);
+  flex-wrap: wrap; padding-block: var(--s8);
   border-bottom: 1px solid var(--outline);
 }
 .masthead .brand { display: flex; align-items: center; gap: var(--s12); text-decoration: none; }
@@ -193,9 +202,18 @@ code {
   font-weight: 500;
 }
 @media (max-width: 560px) {
-  /* At this width the nav is already wrapping; the divider then lands in the
-     middle of a line and reads as a mistake. */
+  /* The divider would land at the start of a wrapped line and read as a
+     mistake rather than as a separator. */
   .masthead .lang { padding-left: 0; border-left: 0; }
+}
+
+/* Once the links cannot sit beside the wordmark, they take a row of their own
+   rather than hanging ragged under the last one. Aligned left, on the same
+   edge as every other band on the page - a nav that wraps while still pinned
+   right ends up indented under nothing, which is what this looked like. */
+@media (max-width: 560px) {
+  .masthead { padding-block: var(--s12); row-gap: var(--s8); }
+  .masthead nav { margin-left: 0; width: 100%; gap: var(--s16) var(--s20); }
 }
 
 
