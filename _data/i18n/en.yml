@@ -144,9 +144,21 @@ cta:
     tell you once, on the day it is out.
   subject: Tell me when Clipa is out
   button: Tell me when it’s out
+  # "no service in the middle" was true of a mailto: and is NOT true of a form
+  # that posts to a third party. On a page whose whole argument is that nothing
+  # leaves your phone, that one clause could not be left standing while the
+  # mechanic changed underneath it. The promise it is replaced with is stronger,
+  # because it is about what happens to the address rather than about plumbing.
   note: >-
-    No list, no newsletter, no service in the middle. It arrives in an inbox and
-    gets one reply.
+    No list, no newsletter. One message on the day it launches, and your address
+    is used for nothing else.
+  # The form. See _config.yml form_endpoint - with no endpoint these are unused
+  # and the mailto button renders instead.
+  email_label: Your email
+  email_placeholder: you@example.com
+  sending: Sending…
+  success: Done. One message, on the day it is out.
+  error: That did not send. Write to CONTACT instead.
 
 night:
   eyebrow: After ten

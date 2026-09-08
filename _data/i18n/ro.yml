@@ -264,5 +264,10 @@ cta:
   subject: Anunță-mă când apare Clipa
   button: Anunță-mă când apare
   note: >-
-    Fără listă, fără newsletter, fără vreun serviciu la mijloc. Ajunge într-o
-    căsuță de e-mail și primește un răspuns.
+    Fără listă, fără newsletter. Un singur mesaj în ziua în care apare, iar
+    adresa ta nu e folosită pentru nimic altceva.
+  email_label: Adresa ta de e-mail
+  email_placeholder: tu@exemplu.com
+  sending: Se trimite…
+  success: Gata. Un singur mesaj, în ziua în care apare.
+  error: Nu s-a trimis. Scrie la CONTACT în schimb.
