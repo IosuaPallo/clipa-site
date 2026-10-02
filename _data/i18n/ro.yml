@@ -18,12 +18,15 @@ url:
   terms: /ro/termeni/
   support: /ro/asistenta/
   delete: /ro/sterge-datele/
+  blog: /blog/
 
 nav:
   label: Site
   privacy: Confidențialitate
   terms: Termeni
   support: Asistență
+  # The articles are in English; the label says so before the click does.
+  blog: Blog (EN)
 
 hero:
   chip: Fără cont · nimic nu pleacă de pe telefon
@@ -51,6 +54,7 @@ footer:
   how: Cum funcționează
   pricing: Preț
   faq: Întrebări
+  blog: Blog (EN)
   privacy: Confidențialitate
   terms: Termeni
   delete: Șterge-mi datele
@@ -271,3 +275,9 @@ cta:
   sending: Se trimite…
   success: Gata. Un singur mesaj, în ziua în care apare.
   error: Nu s-a trimis. Scrie la CONTACT în schimb.
+
+blog:
+  eyebrow: Blog
+  minutes: min de citit
+  sources: Surse
+  next: Următorul

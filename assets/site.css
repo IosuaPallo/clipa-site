@@ -989,3 +989,104 @@ th { color: var(--text); font-weight: 600; }
 .footer__col .eyebrow { margin: 0 0 var(--s4); }
 .footer__col a { font-size: 14px; color: var(--text-2); text-decoration: none; }
 .footer__col a:hover { color: var(--text); text-decoration: underline; }
+
+/* ---------------------------------------------------------------------------
+   Blog
+
+   Articles live in the same .prose column as the support pages: 660px, 17/28,
+   Literata headings. Nothing here invents a colour, a size or a radius; it is
+   the existing system applied to long-form reading.
+   --------------------------------------------------------------------------- */
+
+.post__header { margin-bottom: var(--s40); }
+.post__header .eyebrow a,
+.blog__header .eyebrow { color: var(--text-3); text-decoration: none; }
+.post__header .eyebrow a:hover { color: var(--accent); }
+
+/* A long title at the landing page's h1 size would run to four lines on a
+   phone and push the first sentence below the fold. */
+.post__title { font-size: clamp(2rem, 1.4rem + 2.2vw, 2.875rem); margin: var(--s8) 0 var(--s16); }
+.post__dek { font-size: 19px; line-height: 30px; color: var(--text-2); margin: 0 0 var(--s16); }
+.post__meta { font-size: 14px; color: var(--text-3); margin: 0; padding-bottom: var(--s24); border-bottom: 1px solid var(--outline); }
+
+/* Section headings in an article are statements, and statements are long. */
+.post__body h2 { font-size: clamp(1.375rem, 1.15rem + 0.8vw, 1.75rem); margin: var(--s56) 0 var(--s16); }
+.post__body p { margin: 0 0 var(--s20); }
+.post__body a { overflow-wrap: anywhere; }
+
+/* The standalone line. In the documents these were short paragraphs with tight
+   spacing; on the page they are the author's pivot points, so they read as a
+   different instrument - serif, slightly larger - and a run of them stays
+   together as one gesture instead of five separate paragraphs. */
+.post__body .beat {
+  font-family: var(--font-serif); font-size: 20px; line-height: 30px;
+  color: var(--text); margin: 0 0 var(--s8);
+}
+.post__body p:not(.beat) + .beat { margin-top: var(--s32); }
+.post__body .beat + p:not(.beat) { margin-top: var(--s32); }
+
+.post-figure {
+  margin: var(--s40) 0; padding: var(--s24) var(--s24) var(--s20);
+  background: var(--surface); border: 1px solid var(--outline); border-radius: var(--r-m);
+}
+.post-figure svg { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; overflow: visible; }
+.post-figure figcaption {
+  margin-top: var(--s16); padding-top: var(--s16); border-top: 1px solid var(--outline);
+  font-size: 14px; line-height: 21px; color: var(--text-3);
+}
+@media (max-width: 640px) { .post-figure { padding: var(--s16); } }
+
+/* Inside the SVGs. Sizes are user units, so they scale with the figure; a
+   420-wide viewBox keeps body text near 15px at a phone's column width. */
+.fig-eyebrow { font: 600 13px var(--font-sans); letter-spacing: 0.08em; fill: var(--text-3); }
+.fig-body { font: 500 19px var(--font-serif); fill: var(--text); }
+.fig-label { font: 500 14px var(--font-sans); fill: var(--text-2); }
+.fig-note { font: italic 400 14px var(--font-sans); fill: var(--text-3); }
+.fig-on-accent { fill: var(--bg); }
+.fig-on-accent-soft { fill: var(--accent-tint); }
+.fig-on-tint { fill: var(--accent); }
+.fig-box { fill: var(--surface-variant); stroke: var(--outline); }
+.fig-box--accent { fill: var(--accent); stroke: none; }
+.fig-box--goal { fill: var(--bg); stroke: var(--outline-strong); stroke-dasharray: 5 4; }
+.fig-line-dashed { fill: none; stroke: var(--outline-strong); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.fig-arrow { stroke: var(--accent); stroke-width: 2.5; }
+.fig-head { fill: var(--accent); }
+.fig-axis { stroke: var(--outline-strong); stroke-width: 1; }
+.fig-bar { fill: var(--accent); }
+.fig-badge--strong { fill: var(--accent); }
+.fig-badge--some { fill: var(--accent-tint); }
+.fig-badge--none { fill: none; stroke: var(--outline-strong); stroke-width: 1.5; }
+
+/* The one line that names the product. Set apart so it reads as a sign-off,
+   not as the last sentence of the argument. */
+.post__closing {
+  margin: var(--s40) 0 0; padding-top: var(--s24); border-top: 1px solid var(--outline);
+  font-family: var(--font-serif); font-style: italic; font-size: 19px; line-height: 30px; color: var(--text);
+}
+
+.post__sources { margin-top: var(--s56); }
+.post__sources h2 { font-family: var(--font-sans); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin: 0 0 var(--s16); }
+.post__sources ol { margin: 0; padding-left: var(--s20); }
+.post__sources li { font-size: 14px; line-height: 21px; color: var(--text-2); margin-bottom: var(--s12); }
+.post__sources a { overflow-wrap: anywhere; }
+
+.post__next {
+  display: block; margin-top: var(--s56); padding: var(--s24);
+  border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--surface);
+  text-decoration: none; color: inherit;
+}
+.post__next:hover { border-color: var(--outline-strong); }
+.post__next-title { display: block; margin: var(--s8) 0; font-family: var(--font-serif); font-weight: 600; font-size: 22px; line-height: 30px; color: var(--text); }
+.post__next-dek { display: block; font-size: 15px; line-height: 23px; color: var(--text-2); }
+
+/* The index. Three entries today; the list is built to read the same at thirty. */
+.blog__header { margin-bottom: var(--s40); }
+.blog__header h1 { font-size: clamp(2rem, 1.4rem + 2.2vw, 2.875rem); margin: var(--s8) 0 var(--s16); }
+.blog__lede { font-size: 19px; line-height: 30px; color: var(--text-2); margin: 0; }
+.blog__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--outline); }
+.blog__item { border-bottom: 1px solid var(--outline); }
+.blog__item a { display: block; padding: var(--s24) 0; text-decoration: none; color: inherit; }
+.blog__title { display: block; font-family: var(--font-serif); font-weight: 600; font-size: 24px; line-height: 32px; color: var(--text); }
+.blog__item a:hover .blog__title { color: var(--accent); }
+.blog__dek { display: block; margin: var(--s8) 0; font-size: 16px; line-height: 25px; color: var(--text-2); }
+.blog__meta { display: block; font-size: 14px; color: var(--text-3); }

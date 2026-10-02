@@ -292,6 +292,82 @@ jobs:
           sys.exit(bad)
           EOF
 
+      # The editorial ruleset, held against the BUILT articles. The rules were
+      # written after the first draft broke most of them - no links in the
+      # body, a source listed and never cited, a claim with nothing behind it -
+      # and a rule nobody checks is a suggestion. These are the ones a machine
+      # can actually check; the rest still need a person.
+      - name: The articles keep their own rules
+        run: |
+          python3 - <<'EOF'
+          import glob, os, re, sys
+
+          bad = []
+          posts = sorted(glob.glob('_site/blog/*/index.html'))
+          if not posts:
+              bad.append('no articles were built under _site/blog/')
+
+          def text(html):
+              html = re.sub(r'<(script|style|figure)\b.*?</\1>', ' ', html, flags=re.S)
+              return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', html))
+
+          for path in posts:
+              name = path.split('/')[-2]
+              html = open(path, encoding='utf-8').read()
+              m = re.search(r'class="post__body">(.*?)(?:<p class="post__closing">|<section class="post__sources")', html, re.S)
+              if not m:
+                  bad.append('%s: no article body found' % name)
+                  continue
+              body = m.group(1)
+
+              # A tag that did not render is invisible in review and obvious
+              # on the page.
+              for leak in ('{%', '{{', '{: .beat}'):
+                  if leak in body:
+                      bad.append('%s: %r reached the page unrendered' % (name, leak))
+
+              words = len(re.findall(r"[A-Za-zÀ-ɏ'’]+", text(body)))
+              if not 1200 <= words <= 1800:
+                  bad.append('%s: body is %d words, outside 1200-1800' % (name, words))
+
+              # "No source in the list that is not cited in the text."
+              src = re.search(r'class="post__sources".*?</section>', html, re.S)
+              listed = re.findall(r'href="(https?://[^"]+)"', src.group(0)) if src else []
+              if not listed:
+                  bad.append('%s: no sources listed' % name)
+              for url in listed:
+                  if ('href="%s"' % url) not in body:
+                      bad.append('%s: %s is in the sources but never linked from the text' % (name, url))
+
+              # "Clipa appears once, in the last line." The body may not name
+              # it; the closing line must.
+              if re.search(r'\bClipa\b', text(body)):
+                  bad.append('%s: the body names Clipa - it belongs in the closing line only' % name)
+              closing = re.search(r'<p class="post__closing">(.*?)</p>', html, re.S)
+              if not closing or 'Clipa' not in closing.group(1):
+                  bad.append('%s: no closing line naming Clipa' % name)
+
+              # Every article carries at least one image, and it has a name.
+              if not re.search(r'<figure class="post-figure">\s*<svg[^>]*role="img"', body):
+                  bad.append('%s: no figure with an accessible name' % name)
+
+              for href in re.findall(r'href="(/[^"#]*)"', body):
+                  target = '_site' + href + ('index.html' if href.endswith('/') else '')
+                  if not os.path.exists(target):
+                      bad.append('%s: internal link %s goes nowhere' % (name, href))
+
+              print('%-48s %4d words  %d sources' % (name, words, len(listed)))
+
+          index = open('_site/blog/index.html', encoding='utf-8').read() if os.path.exists('_site/blog/index.html') else ''
+          if index.count('class="blog__item"') != len(posts):
+              bad.append('the blog index lists %d articles, %d were built'
+                         % (index.count('class="blog__item"'), len(posts)))
+
+          for b in bad:
+              print('::error::%s' % b)
+          sys.exit(1 if bad else 0)
+          EOF
+
       - name: No content page may render an empty config value
         run: |
           fail=0
@@ -325,3 +401,11 @@ jobs:
             fail=1
           fi
           exit $fail
+
+      - name: Keep the built site for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: _site
+          retention-days: 7
