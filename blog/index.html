@@ -1,0 +1,34 @@
+---
+layout: default
+title: Blog
+description: Notes on habit, attention and the few seconds between a reflex and an app — including the research that does not support the idea.
+permalink: /blog/
+lang: en
+---
+{%- comment -%}
+  English only, by decision rather than by omission: these are long, sourced
+  pieces, and their voice is the asset that a quick translation would lose.
+  The Romanian navigation labels the link "Blog (EN)" so nobody is surprised.
+
+  Newest first. All three launch on the same day, so the times in their front
+  matter set the reading order: the Instagram piece is the foundation the
+  other two point back to.
+{%- endcomment -%}
+{%- assign t = site.data.i18n.en -%}
+<header class="blog__header">
+  <p class="eyebrow">{{ t.blog.eyebrow }}</p>
+  <h1>Notes on habit, attention, and the few seconds in between.</h1>
+  <p class="blog__lede">Written by the person who built Clipa, about the research behind it — including the parts that do not support it.</p>
+</header>
+
+<ol class="blog__list">
+  {%- for post in site.posts %}
+  <li class="blog__item">
+    <a href="{{ post.url | relative_url }}">
+      <span class="blog__title">{{ post.title }}</span>
+      <span class="blog__dek">{{ post.description }}</span>
+      <span class="blog__meta"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %B %Y" }}</time> · {{ post.minutes }} {{ t.blog.minutes }}</span>
+    </a>
+  </li>
+  {%- endfor %}
+</ol>

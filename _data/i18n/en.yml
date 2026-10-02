@@ -22,12 +22,14 @@ url:
   terms: /terms/
   support: /support/
   delete: /delete-my-data/
+  blog: /blog/
 
 nav:
   label: Site
   privacy: Privacy
   terms: Terms
   support: Support
+  blog: Blog
 
 hero:
   chip: No account · nothing leaves your phone
@@ -59,6 +61,7 @@ footer:
   how: How it works
   pricing: Pricing
   faq: Questions
+  blog: Blog
   privacy: Privacy
   terms: Terms
   delete: Delete my data
@@ -285,3 +288,10 @@ try:
     no_hold: none at this delay
     # DELAY, PROMPT and APP are substituted at runtime.
     announce: "After DELAY seconds: “PROMPT”. Now you can choose: not now, or open APP."
+
+# The blog is English only, for now and on purpose - see blog/index.html.
+blog:
+  eyebrow: Blog
+  minutes: min read
+  sources: Sources
+  next: Next

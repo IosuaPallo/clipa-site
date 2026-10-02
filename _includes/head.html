@@ -67,7 +67,7 @@
   The link preview. og:image must be absolute - a relative one silently
   resolves against the scraper's own host and the card renders blank.
 {%- endcomment -%}
-<meta property="og:type" content="website">
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
 <meta property="og:site_name" content="{{ site.title }}">
 <meta property="og:locale" content="{{ t.lang_code }}">
 <meta property="og:title" content="{{ page_title }}">
@@ -131,6 +131,26 @@
 
   Add offers when the listing is live and the products are confirmed.
 {%- endcomment -%}
+{%- comment -%}
+  An article gets BlogPosting rather than nothing. Same rule as the app's
+  markup above: only what is true. No rating, no fabricated author - the
+  publisher is Clipa because a byline is the author's decision to make.
+{%- endcomment -%}
+{%- if page.layout == 'post' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ page.title | jsonify }},
+  "description": {{ page.description | jsonify }},
+  "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+  "mainEntityOfPage": {{ page.url | absolute_url | jsonify }},
+  "image": {{ '/img/og.png' | absolute_url | jsonify }},
+  "author": { "@type": "Organization", "name": "Clipa" },
+  "publisher": { "@type": "Organization", "name": "Clipa" }
+}
+</script>
+{%- endif -%}
 {%- if page.url == '/' -%}
 <script type="application/ld+json">
 {

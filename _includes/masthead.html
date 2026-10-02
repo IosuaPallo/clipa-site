@@ -20,6 +20,7 @@
     <a href="{{ t.url.privacy | relative_url }}">{{ t.nav.privacy }}</a>
     <a href="{{ t.url.terms | relative_url }}">{{ t.nav.terms }}</a>
     <a href="{{ t.url.support | relative_url }}">{{ t.nav.support }}</a>
+    <a href="{{ t.url.blog | relative_url }}"{% if lang != 'en' %} hreflang="en"{% endif %}>{{ t.nav.blog }}</a>
     {%- assign alt = page.alt_url | default: t.lang_switch_href -%}
     <a class="lang" href="{{ alt | relative_url }}" lang="{{ t.lang_switch_code }}" hreflang="{{ t.lang_switch_code }}">{{ t.lang_switch_to }}</a>
   </nav>
