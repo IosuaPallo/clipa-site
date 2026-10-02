@@ -1034,10 +1034,7 @@ th { color: var(--text); font-weight: 600; }
   margin-top: var(--s16); padding-top: var(--s16); border-top: 1px solid var(--outline);
   font-size: 14px; line-height: 21px; color: var(--text-3);
 }
-@media (max-width: 640px) { .post-figure { padding: var(--s16); } }
-
-/* Inside the SVGs. Sizes are user units, so they scale with the figure; a
-   420-wide viewBox keeps body text near 15px at a phone's column width. */
+/* Inside the SVGs. Sizes are user units, so they scale with the figure. */
 .fig-eyebrow { font: 600 13px var(--font-sans); letter-spacing: 0.08em; fill: var(--text-3); }
 .fig-body { font: 500 19px var(--font-serif); fill: var(--text); }
 .fig-label { font: 500 14px var(--font-sans); fill: var(--text-2); }
@@ -1056,6 +1053,20 @@ th { color: var(--text); font-weight: 600; }
 .fig-badge--strong { fill: var(--accent); }
 .fig-badge--some { fill: var(--accent-tint); }
 .fig-badge--none { fill: none; stroke: var(--outline-strong); stroke-width: 1.5; }
+
+/* On a phone the SVG scales to about two thirds, which took the small labels
+   down to 8-9px. So the card spends the frame's gutter, and the small text is
+   set larger here to land near 12px once scaled. Checked for collisions at
+   375px against every box it sits in. */
+@media (max-width: 640px) {
+  .post-figure {
+    margin-inline: calc(-1 * var(--s20)); padding: var(--s16) var(--s12);
+    border-radius: 0; border-inline: 0;
+  }
+  .post-figure figcaption { padding-inline: var(--s8); }
+  .post-figure .fig-eyebrow { font-size: 14px; }
+  .post-figure .fig-label, .post-figure .fig-note { font-size: 15px; }
+}
 
 /* The one line that names the product. Set apart so it reads as a sign-off,
    not as the last sentence of the argument. */
